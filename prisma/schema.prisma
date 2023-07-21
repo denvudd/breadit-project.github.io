@@ -1,5 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
+// schema from Next Auth Prisma Adapter: https://next-auth.js.org/v3/adapters/prisma#setup
 
 generator client {
   provider = "prisma-client-js"
