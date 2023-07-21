@@ -17,7 +17,7 @@ const SignIn: React.FC<SignInProps> = ({}) => {
         </p>
         <UserAuthForm />
         <p className="px-8 text-center text-sm text-zinc-700">
-          New to Breddit?{" "}
+          New to Breaddit?{" "}
           <Link
             href="/sign-up"
             className="hover:text-zinc-800 text-sm underline underline-offset-4"
