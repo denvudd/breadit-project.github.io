@@ -1,7 +1,8 @@
-import { ClassValue, clsx } from "clsx";
+import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { formatDistanceToNowStrict } from "date-fns";
 import locale from "date-fns/locale/en-US";
+import type { ClassValue } from "class-variance-authority/dist/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
