@@ -1,13 +1,25 @@
-import SignIn from "@/components/SignIn";
+"use client"
+
 import React from "react";
+import SignIn from "@/components/SignIn";
+import {
+  Dialog,
+  DialogContent,
+} from "@/components/ui/Dialog";
+import { useRouter } from "next/navigation";
 
-interface pageProps {}
+const page: React.FC = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const router = useRouter();
 
-const page: React.FC<pageProps> = ({}) => {
   return (
-    <div className="fixed inset-0 bg-zinc-900/20 z-10">
-      INTERSECT
-    </div>
+    <Dialog open={true} onOpenChange={() => router.back()}>
+      <DialogContent className="sm:max-w-[425px]">
+        <div className="grid gap-4 py-4">
+          <SignIn/>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
