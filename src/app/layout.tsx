@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster/Toaster";
 import Providers from "@/components/Providers";
 
 export const metadata = {
-  title: "Breadit - Dive into anything",
+  title: "Breaddit - Dive into anything",
   description: "A Reddit clone built with Next.js and TypeScript.",
 };
 
