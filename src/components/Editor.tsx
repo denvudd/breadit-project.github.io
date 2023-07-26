@@ -27,6 +27,9 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
   });
 
   const ref = React.useRef<EditorJS>();
+  const _titleRef = React.useRef<HTMLTextAreaElement>(null);
+  const { ref: titleRef, ...rest } = register("title");
+  // TODO: extract the hook into a separate custom hook use-component-mounted
   const [isMounted, setIsMounted] = React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -40,10 +43,18 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
       await initEditor();
     };
 
+    // setTimeout for moving to the end of callstack
+    setTimeout(() => {
+      _titleRef.current?.focus();
+    }, 0)
+
     if (isMounted) {
       init();
 
-      return () => {};
+      return () => {
+        ref.current?.destroy(); // destroy editor-js
+        ref.current = undefined;
+      };
     }
   }, [isMounted]);
 
@@ -109,6 +120,12 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
       <form id="subreddit-post-form" className="w-fit" onSubmit={() => {}}>
         <div className="prose prose-stone dark:prose-invert">
           <TextareaAutosize
+            ref={(e) => {
+              titleRef(e);
+              // @ts-ignore
+              _titleRef.current = e;
+            }}
+            {...rest}
             title="Title"
             placeholder="Title"
             className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
