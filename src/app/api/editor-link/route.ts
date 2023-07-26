@@ -23,14 +23,16 @@ export async function GET(req: Request) {
   );
   const imageUrl = imageMatch ? imageMatch[1] : "";
 
-  return JSON.stringify({
-    succes: 1,
-    meta: {
-      title,
-      description,
-      image: {
-        url: imageUrl,
+  return new Response(
+    JSON.stringify({
+      success: 1,
+      meta: {
+        title,
+        description,
+        image: {
+          url: imageUrl,
+        },
       },
-    },
-  });
+    })
+  );
 }

@@ -25,7 +25,27 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
       content: null,
     },
   });
+
   const ref = React.useRef<EditorJS>();
+  const [isMounted, setIsMounted] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMounted(true);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const init = async () => {
+      await initEditor();
+    };
+
+    if (isMounted) {
+      init();
+
+      return () => {};
+    }
+  }, [isMounted]);
 
   const initEditor = React.useCallback(async () => {
     const EditorJS = (await import("@editorjs/editorjs")).default;
@@ -90,8 +110,11 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
         <div className="prose prose-stone dark:prose-invert">
           <TextareaAutosize
             title="Title"
+            placeholder="Title"
             className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
           />
+
+          <div id="editor" className="min-h-[500px]"></div>
         </div>
       </form>
     </div>
