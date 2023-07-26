@@ -17,6 +17,7 @@ const page = async ({ params }: PageProps) => {
   });
 
   if (!subreddit) return notFound();
+  
   return (
     <div className="flex flex-col items-start gap-6">
       <div className="border-b border-gray-200 pb-5">

@@ -9,8 +9,9 @@ import type EditorJS from "@editorjs/editorjs";
 import { uploadFiles } from "@/lib/uploadthing";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { usePathname, useRouter } from "next/navigation";
+import { useLoginToast } from "@/hooks/use-login-toast";
 
 interface EditorProps {
   subredditId: string;
@@ -43,7 +44,24 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
       const { data } = await axios.post("/api/subreddit/post/create", payload);
       return data as string;
     },
-    onError: () => {
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        // if user are not subscribed on subreddit
+        if (error.response?.status === 403) {
+          return toast({
+            title: "You need to subscribe",
+            description:
+              "You need to subscribe to the subreddit to post something.",
+            variant: "destructive",
+          });
+        }
+
+        // if user are unauthorized
+        if (error.response?.status === 401) {
+          return loginToast();
+        }
+      }
+
       return toast({
         title: "Something went wrong",
         description: "Your post was not published, please try again later.",
@@ -63,6 +81,7 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
 
   const router = useRouter();
   const pathname = usePathname();
+  const { loginToast } = useLoginToast();
   const ref = React.useRef<EditorJS>();
   const _titleRef = React.useRef<HTMLTextAreaElement>(null);
   const { ref: titleRef, ...rest } = register("title");
