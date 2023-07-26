@@ -39,7 +39,7 @@ const Layout = async ({ children, params }: LayoutProps) => {
         },
       });
 
-  const isSubscription = !!subscription;
+  const isSubscribed = !!subscription;
 
   const memberCount = await db.subscription.count({
     where: {
@@ -55,7 +55,7 @@ const Layout = async ({ children, params }: LayoutProps) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
           <div className="flex flex-col col-span-2 space-y-6">{children}</div>
           <div className="hidden md:block overflow-hidden h-fit rounded-lg border border-gray-300 order-first md:order-last">
-            <div className="px-6 py-4">
+            <div className="px-6 py-4 bg-zinc-100">
               <p className="font-semibold py-3">About r/{subreddit.name}</p>
             </div>
 
@@ -82,7 +82,11 @@ const Layout = async ({ children, params }: LayoutProps) => {
                 </div>
               ) : null}
               {subreddit.creatorId !== session?.user.id ? (
-                <SubscribeLeaveToggle/>
+                <SubscribeLeaveToggle
+                  subredditId={subreddit.id}
+                  subredditName={subreddit.name}
+                  isSubscribed={isSubscribed}
+                />
               ) : null}
             </dl>
           </div>
