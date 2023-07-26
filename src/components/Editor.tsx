@@ -53,7 +53,7 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
           linkTool: {
             class: LinkTool,
             config: {
-              endpoint: "/api/link",
+              endpoint: "/api/editor-link",
             },
           },
 
