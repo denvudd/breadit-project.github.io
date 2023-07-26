@@ -23,13 +23,13 @@ const SubscribeLeaveToggle: React.FC<SubscribeLeaveToggleProps> = ({
   const { loginToast } = useLoginToast();
   const router = useRouter();
 
-  const { mutate: subscribe, isLoading: isSubscriptionLoading } = useMutation({
-    mutationFn: async () => {
+  const { mutate: handleSubscription, isLoading: isSubscriptionLoading } = useMutation({
+    mutationFn: async (action: "subscribe" | "unsubscribe") => {
       const payload: SubscribeToSubredditPayload = {
         subredditId,
       };
 
-      const { data } = await axios.post("/api/subreddit/subscribe", payload);
+      const { data } = await axios.post(`/api/subreddit/${action}`, payload);
       return data as string;
     },
     onError: (error) => {
@@ -43,58 +43,22 @@ const SubscribeLeaveToggle: React.FC<SubscribeLeaveToggleProps> = ({
         variant: "destructive",
       });
     },
-    onSuccess: () => {
+    onSuccess: (data, action) => {
       React.startTransition(() => {
         router.refresh();
       });
 
       return toast({
-        title: "Subscribed",
-        description: `You are now subscribed to r/${subredditName}`,
+        title: action === "subscribe" ? "Subscribed" : "Unsubscribed",
+        description: `You are now ${action}d to r/${subredditName}`,
       });
     },
   });
 
-  const { mutate: unsubscribe, isLoading: isUnsubscriptionLoading } =
-    useMutation({
-      mutationFn: async () => {
-        const payload: SubscribeToSubredditPayload = {
-          subredditId,
-        };
-
-        const { data } = await axios.post(
-          "/api/subreddit/unsubscribe",
-          payload
-        );
-        return data as string;
-      },
-      onError: (error) => {
-        if (error instanceof AxiosError && error.response?.status === 401) {
-          return loginToast();
-        }
-
-        return toast({
-          title: "There was a problem",
-          description: "Something went wrong, please try again.",
-          variant: "destructive",
-        });
-      },
-      onSuccess: () => {
-        React.startTransition(() => {
-          router.refresh();
-        });
-
-        return toast({
-          title: "Unsubscribed",
-          description: `You are now unsubscribed from r/${subredditName}`,
-        });
-      },
-    });
-
   return isSubscribed ? (
     <Button
-      isLoading={isUnsubscriptionLoading}
-      onClick={() => unsubscribe()}
+      isLoading={isSubscriptionLoading}
+      onClick={() => handleSubscription("unsubscribe")}
       className="w-full mt-1 mb-4"
     >
       Leave community
@@ -102,7 +66,7 @@ const SubscribeLeaveToggle: React.FC<SubscribeLeaveToggleProps> = ({
   ) : (
     <Button
       isLoading={isSubscriptionLoading}
-      onClick={() => subscribe()}
+      onClick={() => handleSubscription("subscribe")}
       className="w-full mt-1 mb-4"
     >
       Join to post
