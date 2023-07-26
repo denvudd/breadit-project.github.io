@@ -1,6 +1,7 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import React from "react";
+import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 
 interface PageProps {
   params: {
@@ -8,11 +9,11 @@ interface PageProps {
   };
 }
 
-const page = async ({ params }) => {
+const page = async ({ params }: PageProps) => {
   const { slug } = params;
   const session = await getAuthSession();
   const subreddit = await db.subreddit.findFirst({
-    where: {name: slug},
+    where: { name: slug },
     include: {
       posts: {
         include: {
@@ -21,10 +22,11 @@ const page = async ({ params }) => {
           comments: true,
           subreddit: true,
         },
-        // take: 
-      }
-    }
-  })
+        take: INFINITE_SCROLLING_PAGINATION_RESULTS,
+      },
+    },
+  });
+  
   return <div>page</div>;
 };
 
