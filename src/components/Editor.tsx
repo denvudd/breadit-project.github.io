@@ -1,18 +1,19 @@
 "use client";
 
 import React from "react";
-import TextareaAutosize from "react-textarea-autosize";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { useLoginToast } from "@/hooks/use-login-toast";
+import { useIsComponentMounted } from "@/hooks/use-is-component-mounted";
+import { usePathname, useRouter } from "next/navigation";
+
+import TextareaAutosize from "react-textarea-autosize";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PostValidator, type PostCreationRequest } from "@/lib/validators/post";
 import type EditorJS from "@editorjs/editorjs";
 import { uploadFiles } from "@/lib/uploadthing";
 import { toast } from "@/hooks/use-toast";
-import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { usePathname, useRouter } from "next/navigation";
-import { useLoginToast } from "@/hooks/use-login-toast";
-
 interface EditorProps {
   subredditId: string;
 }
@@ -85,14 +86,7 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
   const ref = React.useRef<EditorJS>();
   const _titleRef = React.useRef<HTMLTextAreaElement>(null);
   const { ref: titleRef, ...rest } = register("title");
-  // TODO: extract the hook into a separate custom hook use-component-mounted
-  const [isMounted, setIsMounted] = React.useState<boolean>(false);
-
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      setIsMounted(true);
-    }
-  }, []);
+  const { isMounted } = useIsComponentMounted();
 
   React.useEffect(() => {
     const init = async () => {
