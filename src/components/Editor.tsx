@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PostValidator, type PostCreationRequest } from "@/lib/validators/post";
 import type EditorJS from "@editorjs/editorjs";
+import { uploadFiles } from "@/lib/uploadthing";
 
 interface EditorProps {
   subredditId: string;
@@ -56,7 +57,23 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
               endpoint: "/api/editor-link",
             },
           },
+          image: {
+            class: ImageTool,
+            config: {
+              uploader: {
+                async uploadByFile(file: File) {
+                  const [res] = await uploadFiles([file], "imageUploader");
 
+                  return {
+                    success: 1,
+                    file: {
+                      url: res.fileUrl,
+                    },
+                  };
+                },
+              },
+            },
+          },
           list: List,
           code: Code,
           inlineCode: InlineCode,
