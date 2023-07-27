@@ -7,6 +7,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import Post from "./Post";
 
 interface PostFeedProps {
   initPosts: ExtendedPost[];
@@ -58,7 +59,20 @@ const PostFeed: React.FC<PostFeedProps> = ({ initPosts, subredditName }) => {
         const currentVote = post.votes.find(
           (vote) => vote.userId === session?.user.id
         );
-        return <div key={post.id}></div>;
+
+        if (index === posts.length - 1) {
+          return (
+            <li key={post.id} ref={ref}>
+              <Post />
+            </li>
+          );
+        } else {
+          return (
+            <li key={post.id}>
+              <Post />
+            </li>
+          );
+        }
       })}
     </ul>
   );
