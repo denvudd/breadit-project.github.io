@@ -2,6 +2,7 @@ import { formatTimeToNow } from "@/lib/utils";
 import type { ExtendedPost } from "@/types/db";
 import { MessageSquare } from "lucide-react";
 import React from "react";
+import EditorOutput from "./EditorOutput";
 
 interface PostProps {
   subredditName: string;
@@ -43,6 +44,7 @@ const Post: React.FC<PostProps> = ({ subredditName, post, commentAmount }) => {
             className="relative text-sm max-h-40 w-full overflow-clip"
             ref={postRef}
           >
+            <EditorOutput content={post.content} />
             {postRef.current?.clientHeight === 160 ? (
               <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent"></div>
             ) : null}

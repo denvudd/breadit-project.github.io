@@ -25,7 +25,7 @@ const PostFeed: React.FC<PostFeedProps> = ({ initPosts, subredditName }) => {
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ["infinite-query"],
     async ({ pageParam = 1 }) => {
-      const { data } = await axios.get("/api/posts", {
+      const { data } = await axios.get("/api/post", {
         params: {
           limit: INFINITE_SCROLLING_PAGINATION_RESULTS,
           page: pageParam,
