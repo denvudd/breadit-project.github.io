@@ -4,6 +4,7 @@ import React from "react";
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import { notFound } from "next/navigation";
 import CreatePost from "@/components/CreatePost";
+import PostFeed from "@/components/PostFeed";
 
 interface PageProps {
   params: {
@@ -35,7 +36,7 @@ const page = async ({ params }: PageProps) => {
     <>
       <h1 className="font-bold text-3xl md:text-4xl h-14">r/{subreddit.name}</h1>
       <CreatePost session={session} />
-      {/* Show posts in user feed */}
+      <PostFeed initPosts={subreddit.posts} subredditName={subreddit.name} />
     </>
   );
 };
