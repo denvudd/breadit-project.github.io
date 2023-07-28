@@ -3,20 +3,36 @@ import type { ExtendedPost } from "@/types/db";
 import { MessageSquare } from "lucide-react";
 import React from "react";
 import EditorOutput from "./EditorOutput";
+import PostVoteClient from "./posts-vote/PostVoteClient";
+import type { Vote } from "@prisma/client";
+
+type PartialVote = Pick<Vote, "type">;
 
 interface PostProps {
   subredditName: string;
   post: ExtendedPost;
   commentAmount: number;
+  votesAmount: number;
+  currentVote?: PartialVote;
 }
 
-const Post: React.FC<PostProps> = ({ subredditName, post, commentAmount }) => {
+const Post: React.FC<PostProps> = ({
+  subredditName,
+  post,
+  commentAmount,
+  votesAmount,
+  currentVote,
+}) => {
   const postRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <div className="rounded-md bg-white shadow">
-      <div className="px-6 py-4 flex justify-between">
-        {/* votes */}
+      <div className="p-4 flex justify-between">
+        <PostVoteClient
+          postId={post.id}
+          initVote={currentVote?.type}
+          initVotesAmount={votesAmount}
+        />
         <div className="w-0 flex-1">
           <div className="max-h-40 mt-1 text-xs text-gray-500">
             {subredditName ? (
@@ -52,8 +68,12 @@ const Post: React.FC<PostProps> = ({ subredditName, post, commentAmount }) => {
         </div>
       </div>
       <div className="bg-gray-50 z-20 text-sm p-4 sm:px-6">
-        <a className="w-fit flex items-center gap-2" href={`/r/${subredditName}/post/${post.id}`}>
-          <MessageSquare className="h-4 w-4" />{commentAmount}      
+        <a
+          className="w-fit flex items-center gap-2"
+          href={`/r/${subredditName}/post/${post.id}`}
+        >
+          <MessageSquare className="h-4 w-4" />
+          {commentAmount}
         </a>
       </div>
     </div>
