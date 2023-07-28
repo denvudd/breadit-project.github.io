@@ -65,6 +65,8 @@ const PostFeed: React.FC<PostFeedProps> = ({ initPosts, subredditName }) => {
             <li key={post.id} ref={ref}>
               <Post
                 commentAmount={post.comments.length}
+                currentVote={currentVote}
+                votesAmount={votesAmount}
                 subredditName={post.subreddit.name}
                 post={post}
               />
@@ -75,6 +77,8 @@ const PostFeed: React.FC<PostFeedProps> = ({ initPosts, subredditName }) => {
             <li key={post.id}>
               <Post
                 commentAmount={post.comments.length}
+                currentVote={currentVote}
+                votesAmount={votesAmount}
                 subredditName={post.subreddit.name}
                 post={post}
               />
