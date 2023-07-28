@@ -1,6 +1,7 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PostVoteValidator } from "@/lib/validators/vote";
+import type { CachedPost } from "@/types/redis";
 
 const CACHE_AFTER_UPVOTES = 1;
 
@@ -16,6 +17,7 @@ export async function PATCH(req: Request) {
       return new Response("Unauthorized", { status: 401 });
     }
 
+    // check if user has already voted on this post
     const existingVote = await db.vote.findFirst({
       where: {
         userId: session.user.id,
@@ -38,7 +40,7 @@ export async function PATCH(req: Request) {
     }
 
     if (existingVote) {
-      // each user can vote 1 time per 1 post and if he votes again with the same type then a vote will delete
+      // if vote type is the same as existing vote, delete the vote
       if (existingVote.type === voteType) {
         await db.vote.delete({
           where: {
@@ -54,6 +56,7 @@ export async function PATCH(req: Request) {
         });
       }
 
+      // if vote type is different, update the vote
       await db.vote.update({
         where: {
           userId_postId: {
@@ -65,6 +68,25 @@ export async function PATCH(req: Request) {
           type: voteType,
         },
       });
+
+      // recount the votes
+      const votesAmount = post.votes.reduce((acc, vote) => {
+        if (vote.type === "UP") return acc + 1;
+        if (vote.type === "DOWN") return acc - 1;
+
+        return acc;
+      }, 0);
+
+      if (votesAmount >= CACHE_AFTER_UPVOTES) {
+        const cachePayload: CachedPost = {
+          authorUsername: post.author.username ?? "",
+          content: JSON.stringify(post.content),
+          id: post.id,
+          title: post.title,
+          currentVote: voteType,
+          createdAt: post.createdAt,
+        };
+      }
     }
   } catch (error) {}
 }
