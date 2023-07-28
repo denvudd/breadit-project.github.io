@@ -7,6 +7,9 @@ import React from "react";
 import { Button } from "../ui/Button";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useMutation } from "@tanstack/react-query";
+import type { PostVoteRequest } from "@/lib/validators/vote";
+import axios from "axios";
 
 interface PostVoteClientProps {
   postId: string;
@@ -23,6 +26,17 @@ const PostVoteClient: React.FC<PostVoteClientProps> = ({
   const [votesAmount, setVotesAmount] = React.useState<number>(initVotesAmount);
   const [currentVote, setCurrentVote] = React.useState(initVote);
   const prevVote = usePrevious(currentVote); // stores the previous value of a state in a ref
+
+  const { mutate: vote } = useMutation({
+    mutationFn: async (voteType: VoteType) => {
+      const payload: PostVoteRequest = {
+        postId,
+        voteType,
+      };
+
+      await axios.patch("api/subreddit/post/vote", payload);
+    },
+  });
 
   React.useEffect(() => {
     setCurrentVote(initVote);
