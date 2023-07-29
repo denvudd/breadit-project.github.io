@@ -57,13 +57,14 @@ const PostVoteClient: React.FC<PostVoteClientProps> = ({
       });
     },
     onMutate: (voteType: VoteType) => {
+      // if the user is canceling their vote
       if (currentVote === voteType) {
         setCurrentVote(undefined);
 
         if (voteType === "UP") setVotesAmount((prevAmount) => prevAmount - 1);
         else if (voteType === "DOWN")
           setVotesAmount((prevAmount) => prevAmount + 1);
-      } else {
+      } else { // if the user create new vote
         setCurrentVote(voteType);
 
         if (voteType === "UP")
