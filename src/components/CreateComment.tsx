@@ -6,17 +6,26 @@ import { Textarea } from "./ui/Textarea";
 import { Button } from "./ui/Button";
 import { useMutation } from "@tanstack/react-query";
 import type { CommentRequest } from "@/lib/validators/comment";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { useLoginToast } from "@/hooks/use-login-toast";
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
-interface CreateCommentProps {}
+interface CreateCommentProps {
+  postId: string;
+  replyToId?: string;
+}
 
-const CreateComment: React.FC<CreateCommentProps> = ({}) => {
+const CreateComment: React.FC<CreateCommentProps> = ({ postId, replyToId }) => {
   const [input, setInput] = React.useState<string>("");
-  const {} = useMutation({
+  const { loginToast } = useLoginToast();
+  const router = useRouter();
+
+  const { mutate: comment, isLoading: isCommentLoading } = useMutation({
     mutationFn: async ({ postId, text, replyToId }: CommentRequest) => {
       const payload: CommentRequest = {
         postId,
-        text,
+        text, // invalid: text value gives error of "too large data" when is actually not that large, need to figure it out
         replyToId,
       };
 
@@ -26,10 +35,27 @@ const CreateComment: React.FC<CreateCommentProps> = ({}) => {
       );
       return data as string;
     },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          return loginToast();
+        }
+      }
+
+      return toast({
+        title: "There was a problem",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: () => {
+      router.refresh();
+      setInput("");
+    },
   });
 
   return (
-    <div className="grid w-full gap-1.5">
+    <div className="grid w-full gap-2">
       <Label htmlFor="comment">Your comment</Label>
       <div className="mt">
         <Textarea
@@ -40,7 +66,13 @@ const CreateComment: React.FC<CreateCommentProps> = ({}) => {
           placeholder="What are your thoughts?"
         />
         <div className="mt-2 flex justify-end">
-          <Button>Post</Button>
+          <Button
+            isLoading={isCommentLoading}
+            disabled={input.length === 0}
+            onClick={() => comment({ postId, text: input, replyToId })}
+          >
+            Post
+          </Button>
         </div>
       </div>
     </div>

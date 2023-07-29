@@ -25,12 +25,15 @@ const CommentSection = async ({ postId }: CommentSectionProps) => {
         },
       },
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   return (
     <div className="flex flex-col gap-y-4 mt-4">
       <hr className="w-full h-px my-6" />
-      <CreateComment/>
+      <CreateComment postId={postId} />
       <div className="flex flex-col gap-y-6 mt-4">
         {comments
           .filter((comment) => !comment.replyToId)
@@ -48,11 +51,13 @@ const CommentSection = async ({ postId }: CommentSectionProps) => {
             const topLevelCommentVote = topLevelComment.votes.find(
               (vote) => vote.userId === session?.user.id
             );
-            return <div key={topLevelComment.id} className="flex flex-col">
-              <div className="mb-2">
-                <PostComment comment={topLevelComment} />
+            return (
+              <div key={topLevelComment.id} className="flex flex-col">
+                <div className="mb-2">
+                  <PostComment comment={topLevelComment} />
+                </div>
               </div>
-            </div>;
+            );
           })}
       </div>
     </div>

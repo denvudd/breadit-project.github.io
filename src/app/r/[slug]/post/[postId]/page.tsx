@@ -47,8 +47,8 @@ const page = async ({ params }: PageProps) => {
   if (!post && !cachedPost) return notFound();
 
   return (
-    <div className="rounded-md bg-white shadow">
-      <div className="p-4 flex justify-between">
+    <div className="rounded-md bg-white shadow p-4">
+      <div className="flex justify-between">
         <React.Suspense fallback={<PostVoteShell />}>
           {/* @ts-expect-error server component */}
           <PostVoteServer
@@ -92,11 +92,11 @@ const page = async ({ params }: PageProps) => {
         </div>
       </div>
       <React.Suspense
-        fallback={<Loader2 className="h-5 w-5 animate-spin text-zinc-500" />}
-      >
-        {/* @ts-expect-error server component */}
-        <CommentSection postId={post?.id ?? cachedPost.id} />
-      </React.Suspense>
+          fallback={<Loader2 className="h-5 w-5 animate-spin text-zinc-500" />}
+        >
+          {/* @ts-expect-error server component */}
+          <CommentSection postId={post?.id ?? cachedPost.id} />
+        </React.Suspense>
     </div>
   );
 };
