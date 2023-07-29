@@ -46,6 +46,12 @@ const PostFeed: React.FC<PostFeedProps> = ({ initPosts, subredditName }) => {
   // .flatMap() because posts can be type ExtendedPost[] | ExtendedPost[][]
   const posts = data?.pages.flatMap((page) => page) ?? initPosts;
 
+  React.useEffect(() => {
+    if (entry?.isIntersecting) {
+      fetchNextPage();
+    }
+  }, [entry, fetchNextPage])
+
   return (
     <ul className="flex flex-col col-span-2 space-y-6">
       {posts.map((post, index) => {
