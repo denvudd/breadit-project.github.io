@@ -2,6 +2,7 @@ import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import React from "react";
 import PostComment from "./PostComment";
+import CreateComment from "./CreateComment";
 
 interface CommentSectionProps {
   postId: string;
@@ -29,6 +30,7 @@ const CommentSection = async ({ postId }: CommentSectionProps) => {
   return (
     <div className="flex flex-col gap-y-4 mt-4">
       <hr className="w-full h-px my-6" />
+      <CreateComment/>
       <div className="flex flex-col gap-y-6 mt-4">
         {comments
           .filter((comment) => !comment.replyToId)
