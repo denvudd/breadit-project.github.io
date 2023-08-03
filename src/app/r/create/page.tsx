@@ -2,7 +2,7 @@
 
 import React from "react";
 import axios, { AxiosError } from "axios";
-import { Input } from "@/components/Input";
+import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
