@@ -16,12 +16,18 @@ import {
 import { Label } from "./ui/Label";
 import { Input } from "./Input";
 import { Button } from "./ui/Button";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 interface UserNameFormProps {
   user: Pick<User, "id" | "username">;
 }
 
 const UserNameForm: React.FC<UserNameFormProps> = ({ user }) => {
+  const router = useRouter();
+
   const {
     handleSubmit,
     register,
@@ -33,13 +39,46 @@ const UserNameForm: React.FC<UserNameFormProps> = ({ user }) => {
     },
   });
 
+  const { mutate: changeUsername, isLoading: isUsernameLoading } = useMutation({
+    mutationFn: async ({ name }: UsernameRequest) => {
+      const payload: UsernameRequest = { name };
+
+      const { data } = await axios.patch(`/api/settings/username`, payload);
+      return data;
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 409) {
+          return toast({
+            title: "Username already taken",
+            description: "Please choose a different username.",
+            variant: "destructive",
+          });
+        }
+      }
+
+      toast({
+        title: "There was an error",
+        description: "Could not create subreddit.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: () => {
+      toast({
+        description: "Your username has been updated.",
+      });
+
+      router.refresh();
+    },
+  });
+
   return (
-    <form action="" onSubmit={handleSubmit(() => {})}>
+    <form action="" onSubmit={handleSubmit((e) => changeUsername(e))}>
       <Card>
         <CardHeader>
           <CardTitle>Your username</CardTitle>
           <CardDescription>
-            Please enter a display name you are comfortable with.
+            Please enter a display username you are comfortable with.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -62,7 +101,7 @@ const UserNameForm: React.FC<UserNameFormProps> = ({ user }) => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button>Change name</Button>
+          <Button isLoading={isUsernameLoading}>Change username</Button>
         </CardFooter>
       </Card>
     </form>
