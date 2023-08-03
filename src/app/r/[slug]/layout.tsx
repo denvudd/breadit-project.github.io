@@ -1,6 +1,7 @@
+import DeleteCommunity from "@/components/DeleteCommunity";
 import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle";
 import ToFeedButton from "@/components/ToFeedButton";
-import { Button, buttonVariants } from "@/components/ui/Button";
+import { buttonVariants } from "@/components/ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { format } from "date-fns";
@@ -102,6 +103,10 @@ const Layout = async ({ children, params }: LayoutProps) => {
               >
                 Create Post
               </Link>
+
+              {subreddit.creatorId === session?.user.id && (
+                <DeleteCommunity communityId={subreddit.id} />
+              )}
             </dl>
           </div>
         </div>

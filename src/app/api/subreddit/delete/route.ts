@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { DeleteSubredditValidator } from "@/lib/validators/subreddit";
 import { z } from "zod";
 
-export async function DELETE(req: Request) {
+export async function POST(req: Request) {
   try {
     const session = await getAuthSession();
 
@@ -25,15 +25,15 @@ export async function DELETE(req: Request) {
       return new Response("Subreddit doesn't exists", { status: 404 });
     }
 
-    const subreddit = await db.subreddit.delete({
+    await db.subscription.deleteMany({
       where: {
-        id,
+        subredditId: id,
       },
     });
 
-    await db.subscription.deleteMany({
+    await db.subreddit.delete({
       where: {
-        subredditId: subreddit.id,
+        id,
       },
     });
 
