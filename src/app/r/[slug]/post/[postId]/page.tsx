@@ -1,4 +1,4 @@
-import CommentSection from "@/components/CommentSection";
+import CommentSection from "@/components/comments/CommentSection";
 import EditorOutput from "@/components/EditorOutput";
 import PostVoteServer from "@/components/post-vote/PostVoteServer";
 import PostVoteShell from "@/components/post-vote/PostVoteShell";

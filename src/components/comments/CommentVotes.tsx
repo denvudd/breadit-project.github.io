@@ -4,7 +4,7 @@ import { useLoginToast } from "@/hooks/use-login-toast";
 import { usePrevious } from "@mantine/hooks";
 import type { CommentVote, VoteType } from "@prisma/client";
 import React from "react";
-import { Button } from "./ui/Button";
+import { Button } from "../ui/Button";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";

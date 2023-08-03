@@ -1,6 +1,6 @@
 import React from "react";
 import UserAuthForm from "./UserAuthForm";
-import { Icons } from "./Icons";
+import { Icons } from "./ui/Icons";
 import Link from "next/link";
 
 interface SignInProps {}

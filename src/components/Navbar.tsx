@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Icons } from "./Icons";
+import { Icons } from "./ui/Icons";
 import { buttonVariants } from "./ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import UserAccountNav from "./UserAccountNav";

@@ -2,8 +2,8 @@ import { formatTimeToNow } from "@/lib/utils";
 import type { ExtendedPost } from "@/types/db";
 import { MessageSquare } from "lucide-react";
 import React from "react";
-import EditorOutput from "./EditorOutput";
-import PostVoteClient from "./post-vote/PostVoteClient";
+import EditorOutput from "../EditorOutput";
+import PostVoteClient from "../post-vote/PostVoteClient";
 import type { Vote } from "@prisma/client";
 
 type PartialVote = Pick<Vote, "type">;

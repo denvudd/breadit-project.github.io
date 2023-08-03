@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import React from "react";
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import { notFound } from "next/navigation";
-import CreatePost from "@/components/CreatePost";
+import CreatePost from "@/components/post/CreatePost";
 import PostFeed from "@/components/PostFeed";
 
 interface PageProps {

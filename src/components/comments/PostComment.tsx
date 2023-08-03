@@ -1,16 +1,16 @@
 "use client";
 
 import React from "react";
-import UserAvatar from "./UserAvatar";
+import UserAvatar from "../UserAvatar";
 import type { Comment, CommentVote, User } from "@prisma/client";
 import { formatTimeToNow } from "@/lib/utils";
 import CommentVotes from "./CommentVotes";
-import { Button } from "./ui/Button";
+import { Button } from "../ui/Button";
 import { MessageSquare } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Label } from "./ui/Label";
-import { Textarea } from "./ui/Textarea";
+import { Label } from "../ui/Label";
+import { Textarea } from "../ui/Textarea";
 import { useMutation } from "@tanstack/react-query";
 import type { CommentRequest } from "@/lib/validators/comment";
 import axios from "axios";
