@@ -1,3 +1,4 @@
+import DeleteCommunity from "@/components/DeleteCommunity";
 import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle";
 import ToFeedButton from "@/components/ToFeedButton";
 import { buttonVariants } from "@/components/ui/Button";
@@ -80,18 +81,18 @@ const Layout = async ({ children, params }: LayoutProps) => {
                 </dd>
               </div>
 
-              {subreddit.creatorId === session?.user.id ? (
+              {subreddit.creatorId === session?.user.id && (
                 <div className="flex justify-between gap-x-4 py-3">
                   <p className="text-gray-500">You created this community</p>
                 </div>
-              ) : null}
-              {subreddit.creatorId !== session?.user.id ? (
+              )}
+              {subreddit.creatorId !== session?.user.id && (
                 <SubscribeLeaveToggle
                   subredditId={subreddit.id}
                   subredditName={subreddit.name}
                   isSubscribed={isSubscribed}
                 />
-              ) : null}
+              )}
 
               <Link
                 className={buttonVariants({
@@ -102,6 +103,10 @@ const Layout = async ({ children, params }: LayoutProps) => {
               >
                 Create Post
               </Link>
+
+              {subreddit.creatorId === session?.user.id && (
+                <DeleteCommunity communityId={subreddit.id} />
+              )}
             </dl>
           </div>
         </div>
