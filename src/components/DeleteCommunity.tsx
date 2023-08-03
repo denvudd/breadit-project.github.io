@@ -68,7 +68,7 @@ const DeleteCommunity: React.FC<DeleteCommunityProps> = ({ communityId }) => {
       </PopoverTrigger>
       <PopoverContent className="w-80">
         <div className="space-y-2">
-          <h4 className="font-medium">
+          <h4 className="text-sm mb-2">
             Are you sure that you want to delete this community?
           </h4>
           <div className="flex gap-2">
