@@ -66,17 +66,14 @@ const CommentSection = async ({ postId }: CommentSectionProps) => {
                 {topLevelComment.replies
                   .sort((a, b) => b.votes.length - a.votes.length)
                   .map((reply) => {
-                    const replyVotesAmount = topLevelComment.votes.reduce(
-                      (acc, vote) => {
-                        if (vote.type === "UP") return acc + 1;
-                        if (vote.type === "DOWN") return acc - 1;
+                    const replyVotesAmount = reply.votes.reduce((acc, vote) => {
+                      if (vote.type === "UP") return acc + 1;
+                      if (vote.type === "DOWN") return acc - 1;
 
-                        return acc;
-                      },
-                      0
-                    );
+                      return acc;
+                    }, 0);
 
-                    const replyVote = topLevelComment.votes.find(
+                    const replyVote = reply.votes.find(
                       (vote) => vote.userId === session?.user.id
                     );
 
