@@ -7,14 +7,15 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { Button, buttonVariants } from "./ui/Button";
 import type { DeleteSubredditPayload } from "@/lib/validators/subreddit";
-
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/Popover";
 interface DeleteCommunityProps {
   communityId: string;
 }
 
 const DeleteCommunity: React.FC<DeleteCommunityProps> = ({ communityId }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
   const router = useRouter();
-  
+
   const { mutate: deleteCommunity, isLoading: isDeletingCommunity } =
     useMutation({
       mutationFn: async () => {
@@ -47,20 +48,48 @@ const DeleteCommunity: React.FC<DeleteCommunityProps> = ({ communityId }) => {
       },
       onSuccess: () => {
         router.push(`/`);
+        router.refresh();
       },
     });
 
   return (
-    <Button
-      className={buttonVariants({
-        variant: "destructive",
-        className: "w-full mb-4",
-      })}
-      onClick={() => deleteCommunity()}
-      isLoading={isDeletingCommunity}
-    >
-      Delete community
-    </Button>
+    <Popover open={isOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          className={buttonVariants({
+            variant: "destructive",
+            className: "w-full mb-4",
+          })}
+          isLoading={isDeletingCommunity}
+          onClick={() => setIsOpen(true)}
+        >
+          Delete community
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-80">
+        <div className="space-y-2">
+          <h4 className="font-medium">
+            Are you sure that you want to delete this community?
+          </h4>
+          <div className="flex gap-2">
+            <Button
+              className={buttonVariants({
+                variant: "destructive",
+              })}
+              onClick={() => {
+                setIsOpen(false);
+                deleteCommunity();
+              }}
+            >
+              Delete
+            </Button>
+            <Button variant="subtle" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 };
 
