@@ -15,6 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import type { CommentRequest } from "@/lib/validators/comment";
 import axios from "axios";
 import { toast } from "@/hooks/use-toast";
+import { useOnClickOutside } from "@/hooks/use-on-click-outside";
 
 type ExtendedComment = Comment & {
   votes: CommentVote[];
@@ -55,7 +56,7 @@ const PostComment: React.FC<PostCommentProps> = ({
       );
       return data;
     },
-    onError: (error) => {
+    onError: () => {
       return toast({
         title: "Something went wrong",
         description: "Comment wasn't posted successfully, please try again.",
@@ -69,8 +70,12 @@ const PostComment: React.FC<PostCommentProps> = ({
     },
   });
 
+  useOnClickOutside(commentRef, () => {
+    setIsReplying(false)
+  })
+
   return (
-    <div className="flex flex-col">
+    <div ref={commentRef} className="flex flex-col">
       <div className="flex items-center">
         <UserAvatar
           user={{

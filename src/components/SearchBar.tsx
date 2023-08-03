@@ -28,8 +28,7 @@ const SearchBar: React.FC<SearchBarProps> = ({}) => {
   const {
     data: queryResults,
     refetch,
-    isFetched,
-    isFetching,
+    isFetched
   } = useQuery({
     queryFn: async () => {
       if (!input) return [];

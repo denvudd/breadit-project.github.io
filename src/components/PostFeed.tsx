@@ -22,7 +22,7 @@ const PostFeed: React.FC<PostFeedProps> = ({ initPosts, subredditName }) => {
     threshold: 1,
   });
 
-  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+  const { data, fetchNextPage } = useInfiniteQuery(
     ["infinite-query"],
     async ({ pageParam = 1 }) => {
       const { data } = await axios.get("/api/posts", {
