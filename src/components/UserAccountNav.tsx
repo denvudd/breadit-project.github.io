@@ -6,7 +6,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import type { User } from "next-auth";
+import { User } from "@prisma/client";
 import React from "react";
 import UserAvatar from "./UserAvatar";
 import { DropdownMenuContent } from "./ui/DropdownMenu";

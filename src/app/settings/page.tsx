@@ -1,3 +1,4 @@
+import AvatarForm from "@/components/settings/AvatarForm";
 import NameForm from "@/components/settings/NameForm";
 import UserAboutForm from "@/components/settings/UserAboutForm";
 import UserNameForm from "@/components/settings/UserNameForm";
@@ -30,6 +31,7 @@ const page = async ({}) => {
         <h1 className="font-bold text-3xl md:text-4xl mb-2">Settings</h1>
       </div>
       <div className="grid gap-6">
+        <AvatarForm/>
         <UserNameForm
           user={{
             id: session.user.id,
