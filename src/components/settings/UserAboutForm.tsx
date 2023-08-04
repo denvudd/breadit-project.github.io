@@ -11,9 +11,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/Card";
-import { Label } from "./ui/Label";
-import { Button } from "./ui/Button";
+} from "../ui/Card";
+import { Label } from "../ui/Label";
+import { Button } from "../ui/Button";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "@/hooks/use-toast";
@@ -22,13 +22,13 @@ import {
   type AboutRequest,
   AboutValidator,
 } from "@/lib/validators/settings/about";
-import { Textarea } from "./ui/Textarea";
+import { Textarea } from "../ui/Textarea";
 
-interface UserNameFormProps {
+interface UserAboutFormProps {
   user: Pick<User, "id" | "about">;
 }
 
-const UserAboutForm: React.FC<UserNameFormProps> = ({ user }) => {
+const UserAboutForm: React.FC<UserAboutFormProps> = ({ user }) => {
   const router = useRouter();  
 
   const {
@@ -83,6 +83,7 @@ const UserAboutForm: React.FC<UserNameFormProps> = ({ user }) => {
               id="about"
               className="w-[400px]"
               {...register("about")}
+              placeholder="About (optional)"
             />
             {errors?.about && (
               <p className="px-1 text-xs text-red-600">

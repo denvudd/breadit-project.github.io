@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const UsernameValidator = z.object({
-  name: z
+  username: z
     .string()
     .min(3)
     .max(32)

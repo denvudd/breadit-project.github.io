@@ -13,16 +13,16 @@ export async function PATCH(req: Request) {
 
     const body = await req.json();
 
-    const { name } = UsernameValidator.parse(body);
+    const { username } = UsernameValidator.parse(body);
 
     // check if username already taken
-    const username = await db.user.findFirst({
+    const dbUsername = await db.user.findFirst({
       where: {
-        username: name,
+        username,
       },
     });
 
-    if (username) {
+    if (dbUsername) {
       return new Response("Username is already taken", { status: 409 });
     }
 
@@ -31,7 +31,7 @@ export async function PATCH(req: Request) {
         id: session.user.id,
       },
       data: {
-        username: name,
+        username,
       },
     });
 

@@ -1,5 +1,6 @@
-import UserAboutForm from "@/components/UserAboutForm";
-import UserNameForm from "@/components/UserNameForm";
+import NameForm from "@/components/settings/NameForm";
+import UserAboutForm from "@/components/settings/UserAboutForm";
+import UserNameForm from "@/components/settings/UserNameForm";
 import { authOptions, getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
@@ -19,9 +20,9 @@ const page = async ({}) => {
 
   const user = await db.user.findFirst({
     where: {
-      id: session.user.id
-    }
-  })
+      id: session.user.id,
+    },
+  });
 
   return (
     <div className="max-4-xl mx-auto py-12">
@@ -33,6 +34,12 @@ const page = async ({}) => {
           user={{
             id: session.user.id,
             username: user?.username || "",
+          }}
+        />
+        <NameForm
+          user={{
+            id: session.user.id,
+            name: user?.name || "",
           }}
         />
         <UserAboutForm
