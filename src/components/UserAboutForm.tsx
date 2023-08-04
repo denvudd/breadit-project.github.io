@@ -25,7 +25,7 @@ import {
 } from "@/lib/validators/settings/about";
 
 interface UserNameFormProps {
-  user: Pick<User, "id" | "username">;
+  user: Pick<User, "id" | "about">;
 }
 
 const UserAboutForm: React.FC<UserNameFormProps> = ({ user }) => {
@@ -38,7 +38,7 @@ const UserAboutForm: React.FC<UserNameFormProps> = ({ user }) => {
   } = useForm<AboutRequest>({
     resolver: zodResolver(AboutValidator),
     defaultValues: {
-      about: user?.username || "",
+      about: user?.about || "",
     },
   });
 
@@ -96,7 +96,9 @@ const UserAboutForm: React.FC<UserNameFormProps> = ({ user }) => {
               {...register("about")}
             />
             {errors?.about && (
-              <p className="px-1 text-xs text-red-600">{errors.about.message}</p>
+              <p className="px-1 text-xs text-red-600">
+                {errors.about.message}
+              </p>
             )}
           </div>
         </CardContent>

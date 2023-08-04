@@ -46,6 +46,7 @@ model User {
   emailVerified DateTime?
 
   username String? @unique
+  about    String?
 
   image             String?
   accounts          Account[]
@@ -94,7 +95,7 @@ model Post {
   authorId String
 
   comments Comment[]
-  votes     Vote[]
+  votes    Vote[]
 }
 
 model Comment {
