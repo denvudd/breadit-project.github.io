@@ -1,6 +1,7 @@
 import UserAboutForm from "@/components/UserAboutForm";
 import UserNameForm from "@/components/UserNameForm";
 import { authOptions, getAuthSession } from "@/lib/auth";
+import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -16,6 +17,12 @@ const page = async ({}) => {
     redirect(authOptions.pages?.signIn || "/sign-in");
   }
 
+  const user = await db.user.findFirst({
+    where: {
+      id: session.user.id
+    }
+  })
+
   return (
     <div className="max-4-xl mx-auto py-12">
       <div className="grid items-start gap-8">
@@ -25,13 +32,13 @@ const page = async ({}) => {
         <UserNameForm
           user={{
             id: session.user.id,
-            username: session.user.username || "",
+            username: user?.username || "",
           }}
         />
         <UserAboutForm
           user={{
             id: session.user.id,
-            about: session.user.about || "",
+            about: user?.about || "",
           }}
         />
       </div>

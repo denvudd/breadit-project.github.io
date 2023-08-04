@@ -13,23 +13,23 @@ import {
   CardTitle,
 } from "./ui/Card";
 import { Label } from "./ui/Label";
-import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 import { useMutation } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import {
   type AboutRequest,
   AboutValidator,
 } from "@/lib/validators/settings/about";
+import { Textarea } from "./ui/Textarea";
 
 interface UserNameFormProps {
   user: Pick<User, "id" | "about">;
 }
 
 const UserAboutForm: React.FC<UserNameFormProps> = ({ user }) => {
-  const router = useRouter();
+  const router = useRouter();  
 
   const {
     handleSubmit,
@@ -42,24 +42,14 @@ const UserAboutForm: React.FC<UserNameFormProps> = ({ user }) => {
     },
   });
 
-  const { mutate: changeUsername, isLoading: isUsernameLoading } = useMutation({
+  const { mutate: changeAbout, isLoading: isAboutLoading } = useMutation({
     mutationFn: async ({ about }: AboutRequest) => {
       const payload: AboutRequest = { about };
 
       const { data } = await axios.patch(`/api/settings/about`, payload);
       return data;
     },
-    onError: (error) => {
-      if (error instanceof AxiosError) {
-        if (error.response?.status === 409) {
-          return toast({
-            title: "Username already taken",
-            description: "Please choose a different username.",
-            variant: "destructive",
-          });
-        }
-      }
-
+    onError: () => {
       toast({
         title: "There was an error",
         description: "Could not create subreddit.",
@@ -68,7 +58,7 @@ const UserAboutForm: React.FC<UserNameFormProps> = ({ user }) => {
     },
     onSuccess: () => {
       toast({
-        description: "Your username has been updated.",
+        description: "Your biography has been updated.",
       });
 
       router.refresh();
@@ -76,7 +66,7 @@ const UserAboutForm: React.FC<UserNameFormProps> = ({ user }) => {
   });
 
   return (
-    <form action="" onSubmit={handleSubmit((e) => changeUsername(e))}>
+    <form action="" onSubmit={handleSubmit((e) => changeAbout(e))}>
       <Card>
         <CardHeader>
           <CardTitle>About (optional)</CardTitle>
@@ -89,10 +79,9 @@ const UserAboutForm: React.FC<UserNameFormProps> = ({ user }) => {
             <Label className="sr-only" htmlFor="about">
               About (optional)
             </Label>
-            <Input
+            <Textarea
               id="about"
-              className="w-[400px] pl-6"
-              size={32}
+              className="w-[400px]"
               {...register("about")}
             />
             {errors?.about && (
@@ -103,7 +92,7 @@ const UserAboutForm: React.FC<UserNameFormProps> = ({ user }) => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button isLoading={isUsernameLoading}>Save</Button>
+          <Button isLoading={isAboutLoading}>Save biography</Button>
         </CardFooter>
       </Card>
     </form>
