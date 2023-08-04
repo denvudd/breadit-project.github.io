@@ -46,7 +46,7 @@ const NameForm: React.FC<NameFormProps> = ({ user }) => {
       const { data } = await axios.patch(`/api/settings/name`, payload);
       return data;
     },
-    onError: (error) => {
+    onError: () => {
       toast({
         title: "There was an error",
         description: "Could not create subreddit.",
@@ -73,15 +73,12 @@ const NameForm: React.FC<NameFormProps> = ({ user }) => {
         </CardHeader>
         <CardContent>
           <div className="relative grid gap-1">
-            <div className="absolute top-0 left-0 w-8 h-10 grid place-items-center">
-              <span className="text-sm text-zinc-400">u/</span>
-            </div>
             <Label className="sr-only" htmlFor="name">
               Display name
             </Label>
             <Input
               id="name"
-              className="w-[400px] pl-6"
+              className="w-[400px]"
               size={32}
               {...register("name")}
               placeholder="Display name (optional)"
@@ -92,7 +89,7 @@ const NameForm: React.FC<NameFormProps> = ({ user }) => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button isLoading={isNameLoading}>Change username</Button>
+          <Button isLoading={isNameLoading}>Change name</Button>
         </CardFooter>
       </Card>
     </form>

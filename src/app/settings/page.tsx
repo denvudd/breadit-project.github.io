@@ -29,7 +29,7 @@ const page = async ({}) => {
       <div className="grid items-start gap-8">
         <h1 className="font-bold text-3xl md:text-4xl mb-2">Settings</h1>
       </div>
-      <div className="grid gap-10">
+      <div className="grid gap-6">
         <UserNameForm
           user={{
             id: session.user.id,

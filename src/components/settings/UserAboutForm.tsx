@@ -93,7 +93,7 @@ const UserAboutForm: React.FC<UserAboutFormProps> = ({ user }) => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button isLoading={isAboutLoading}>Save biography</Button>
+          <Button isLoading={isAboutLoading}>Change biography</Button>
         </CardFooter>
       </Card>
     </form>
