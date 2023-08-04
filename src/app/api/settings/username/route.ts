@@ -1,6 +1,6 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { UsernameValidator } from "@/lib/validators/username";
+import { UsernameValidator } from "@/lib/validators/settings/username";
 import { z } from "zod";
 
 export async function PATCH(req: Request) {

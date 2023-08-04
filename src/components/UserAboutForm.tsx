@@ -1,6 +1,5 @@
 "use client";
 
-import { UsernameRequest, UsernameValidator } from "@/lib/validators/settings/username";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
 import React from "react";
@@ -20,30 +19,34 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import {
+  type AboutRequest,
+  AboutValidator,
+} from "@/lib/validators/settings/about";
 
 interface UserNameFormProps {
   user: Pick<User, "id" | "username">;
 }
 
-const UserNameForm: React.FC<UserNameFormProps> = ({ user }) => {
+const UserAboutForm: React.FC<UserNameFormProps> = ({ user }) => {
   const router = useRouter();
 
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<UsernameRequest>({
-    resolver: zodResolver(UsernameValidator),
+  } = useForm<AboutRequest>({
+    resolver: zodResolver(AboutValidator),
     defaultValues: {
-      name: user?.username || "",
+      about: user?.username || "",
     },
   });
 
   const { mutate: changeUsername, isLoading: isUsernameLoading } = useMutation({
-    mutationFn: async ({ name }: UsernameRequest) => {
-      const payload: UsernameRequest = { name };
+    mutationFn: async ({ about }: AboutRequest) => {
+      const payload: AboutRequest = { about };
 
-      const { data } = await axios.patch(`/api/settings/username`, payload);
+      const { data } = await axios.patch(`/api/settings/about`, payload);
       return data;
     },
     onError: (error) => {
@@ -76,36 +79,33 @@ const UserNameForm: React.FC<UserNameFormProps> = ({ user }) => {
     <form action="" onSubmit={handleSubmit((e) => changeUsername(e))}>
       <Card>
         <CardHeader>
-          <CardTitle>Your username</CardTitle>
+          <CardTitle>About (optional)</CardTitle>
           <CardDescription>
-            Please enter a display username you are comfortable with.
+            A brief description of yourself shown on your profile.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="relative grid gap-1">
-            <div className="absolute top-0 left-0 w-8 h-10 grid place-items-center">
-              <span className="text-sm text-zinc-400">u/</span>
-            </div>
-            <Label className="sr-only" htmlFor="name">
-              Name
+            <Label className="sr-only" htmlFor="about">
+              About (optional)
             </Label>
             <Input
-              id="name"
+              id="about"
               className="w-[400px] pl-6"
               size={32}
-              {...register("name")}
+              {...register("about")}
             />
-            {errors?.name && (
-              <p className="px-1 text-xs text-red-600">{errors.name.message}</p>
+            {errors?.about && (
+              <p className="px-1 text-xs text-red-600">{errors.about.message}</p>
             )}
           </div>
         </CardContent>
         <CardFooter>
-          <Button isLoading={isUsernameLoading}>Change username</Button>
+          <Button isLoading={isUsernameLoading}>Save</Button>
         </CardFooter>
       </Card>
     </form>
   );
 };
 
-export default UserNameForm;
+export default UserAboutForm;
