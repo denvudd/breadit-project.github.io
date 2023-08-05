@@ -39,6 +39,13 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+enum Gender {
+  MALE
+  FEMALE
+  NONBINARY
+  NONE
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -46,6 +53,8 @@ model User {
   emailVerified DateTime?
 
   username String? @unique
+  about    String?
+  gender   Gender? @default(NONE)
 
   image             String?
   accounts          Account[]
@@ -94,7 +103,7 @@ model Post {
   authorId String
 
   comments Comment[]
-  votes     Vote[]
+  votes    Vote[]
 }
 
 model Comment {

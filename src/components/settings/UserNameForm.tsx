@@ -1,6 +1,6 @@
 "use client";
 
-import { UsernameRequest, UsernameValidator } from "@/lib/validators/username";
+import { UsernameRequest, UsernameValidator } from "@/lib/validators/settings/username";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
 import React from "react";
@@ -12,10 +12,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/Card";
-import { Label } from "./ui/Label";
-import { Input } from "./ui/Input";
-import { Button } from "./ui/Button";
+} from "../ui/Card";
+import { Label } from "../ui/Label";
+import { Input } from "../ui/Input";
+import { Button } from "../ui/Button";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "@/hooks/use-toast";
@@ -25,7 +25,7 @@ interface UserNameFormProps {
   user: Pick<User, "id" | "username">;
 }
 
-const UserNameForm: React.FC<UserNameFormProps> = ({ user }) => {
+const UsernameForm: React.FC<UserNameFormProps> = ({ user }) => {
   const router = useRouter();
 
   const {
@@ -35,13 +35,13 @@ const UserNameForm: React.FC<UserNameFormProps> = ({ user }) => {
   } = useForm<UsernameRequest>({
     resolver: zodResolver(UsernameValidator),
     defaultValues: {
-      name: user?.username || "",
+      username: user?.username || "",
     },
   });
 
   const { mutate: changeUsername, isLoading: isUsernameLoading } = useMutation({
-    mutationFn: async ({ name }: UsernameRequest) => {
-      const payload: UsernameRequest = { name };
+    mutationFn: async ({ username }: UsernameRequest) => {
+      const payload: UsernameRequest = { username };
 
       const { data } = await axios.patch(`/api/settings/username`, payload);
       return data;
@@ -76,7 +76,7 @@ const UserNameForm: React.FC<UserNameFormProps> = ({ user }) => {
     <form action="" onSubmit={handleSubmit((e) => changeUsername(e))}>
       <Card>
         <CardHeader>
-          <CardTitle>Your username</CardTitle>
+          <CardTitle>Username</CardTitle>
           <CardDescription>
             Please enter a display username you are comfortable with.
           </CardDescription>
@@ -86,26 +86,27 @@ const UserNameForm: React.FC<UserNameFormProps> = ({ user }) => {
             <div className="absolute top-0 left-0 w-8 h-10 grid place-items-center">
               <span className="text-sm text-zinc-400">u/</span>
             </div>
-            <Label className="sr-only" htmlFor="name">
+            <Label className="sr-only" htmlFor="username">
               Name
             </Label>
             <Input
               id="name"
               className="w-[400px] pl-6"
               size={32}
-              {...register("name")}
+              {...register("username")}
+              placeholder="username"
             />
-            {errors?.name && (
-              <p className="px-1 text-xs text-red-600">{errors.name.message}</p>
+            {errors?.username && (
+              <p className="px-1 text-xs text-red-600">{errors.username.message}</p>
             )}
           </div>
         </CardContent>
         <CardFooter>
-          <Button isLoading={isUsernameLoading}>Change username</Button>
+          <Button isLoading={isUsernameLoading}>Save username</Button>
         </CardFooter>
       </Card>
     </form>
   );
 };
 
-export default UserNameForm;
+export default UsernameForm;
