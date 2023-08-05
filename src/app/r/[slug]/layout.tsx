@@ -1,3 +1,4 @@
+import AddAbout from "@/components/AddAbout";
 import DeleteCommunity from "@/components/DeleteCommunity";
 import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle";
 import ToFeedButton from "@/components/ToFeedButton";
@@ -63,7 +64,11 @@ const Layout = async ({ children, params }: LayoutProps) => {
             <div className="px-6 py-4 bg-zinc-100">
               <p className="font-semibold py-3">About r/{subreddit.name}</p>
             </div>
-
+            {subreddit.creatorId === session?.user.id && (
+              <div className="flex w-full px-6 pt-4 bg-white">
+                <AddAbout subredditId={subreddit.id} />
+              </div>
+            )}
             <dl className="divide-y divide-gray-100 px-6 py-4 text-sm leading-6 bg-white">
               <div className="flex justify-between gap-x-4 py-3">
                 <dt className="text-gray-500">Created</dt>
