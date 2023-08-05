@@ -12,6 +12,7 @@ import UserAvatar from "./UserAvatar";
 import { DropdownMenuContent } from "./ui/DropdownMenu";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
+import { List, LogOut, Settings, Users2 } from "lucide-react";
 
 interface UserAccountNavProps {
   user: Pick<User, "name" | "image" | "email">;
@@ -44,13 +45,22 @@ const UserAccountNav: React.FC<UserAccountNavProps> = ({ user }) => {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href="/">Feed</Link>
+          <Link href="/" className="cursor-pointer">
+            <List className="mr-2 h-4 w-4" />
+            Feed
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/r/create">Create community</Link>
+          <Link href="/r/create" className="cursor-pointer">
+            <Users2 className="mr-2 h-4 w-4" />
+            Create community
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/settings">Settings</Link>
+          <Link href="/settings" className="cursor-pointer">
+            <Settings className="mr-2 h-4 w-4" />
+            Settings
+          </Link>
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
@@ -59,11 +69,12 @@ const UserAccountNav: React.FC<UserAccountNavProps> = ({ user }) => {
           onSelect={(event) => {
             event.preventDefault();
             signOut({
-              callbackUrl: `${window.location.origin}/sign-in`
+              callbackUrl: `${window.location.origin}/sign-in`,
             });
           }}
           className="cursor-pointer"
         >
+          <LogOut className="mr-2 h-4 w-4" />
           Sign Out
         </DropdownMenuItem>
       </DropdownMenuContent>
