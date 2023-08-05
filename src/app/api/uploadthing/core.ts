@@ -1,4 +1,5 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
+import { z } from "zod";
 
 const f = createUploadthing();
 
@@ -21,7 +22,8 @@ export const ourFileRouter = {
     })
     .onUploadComplete(async ({ metadata, file }) => {}),
   avatarUploader: f({
-    image: { maxFileSize: "2MB", maxFileCount: 1 },
+    "image/png": { maxFileSize: "2MB", maxFileCount: 1 },
+    "image/jpeg": { maxFileSize: "2MB", maxFileCount: 1 },
   })
     .middleware(({ req }) => auth(req))
     .onUploadComplete((data) => console.log("file", data)),

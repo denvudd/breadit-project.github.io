@@ -56,7 +56,9 @@ const AvatarForm: React.FC<AvatarFormProps> = ({ user }) => {
       <Card>
         <CardHeader>
           <CardTitle>Avatar</CardTitle>
-          <CardDescription>Images must be .png or .jpg format.</CardDescription>
+          <CardDescription>
+            Images must be .png or .jpeg format.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="relative grid gap-1">
@@ -64,13 +66,15 @@ const AvatarForm: React.FC<AvatarFormProps> = ({ user }) => {
               Avatar
             </Label>
             {avatar && (
-              <Image
-                src={avatar}
-                className="w-40"
-                width={160}
-                height={160}
-                alt="profile avatar"
-              />
+              <a href={avatar}>
+                <Image
+                  src={avatar}
+                  className="w-40"
+                  width={160}
+                  height={160}
+                  alt="profile avatar"
+                />
+              </a>
             )}
             <div className="w-80">
               <UploadDropzone
