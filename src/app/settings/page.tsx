@@ -8,6 +8,9 @@ import { redirect } from "next/navigation";
 import React from "react";
 import GenderForm from "@/components/settings/GenderForm";
 import EmailForm from "@/components/settings/EmailForm";
+import { Button } from "@/components/ui/Button";
+import { signOut } from "next-auth/react";
+import SignOutButton from "@/components/ui/SignOutButton";
 
 export const metadata = {
   title: "Settings",
@@ -69,6 +72,9 @@ const page = async ({}) => {
             gender: user?.gender || null,
           }}
         />
+        <div className="flex justify-end">
+          <SignOutButton />
+        </div>
       </div>
     </div>
   );
