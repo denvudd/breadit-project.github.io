@@ -36,15 +36,12 @@ interface UserNameFormProps {
 }
 
 const GenderForm: React.FC<UserNameFormProps> = ({ user }) => {
-  const [selectedGender, setSelectedGender] = React.useState<Gender | null>(
-    user.gender
-  );
   const router = useRouter();
-  console.log(selectedGender);
 
   const {
     handleSubmit,
     register,
+    setValue,
     formState: { errors },
   } = useForm<GenderRequest>({
     resolver: zodResolver(GenderValidator),
@@ -93,14 +90,14 @@ const GenderForm: React.FC<UserNameFormProps> = ({ user }) => {
         </CardHeader>
         <CardContent>
           <div className="relative grid gap-1">
-            <Label className="sr-only" htmlFor="username">
-              Name
+            <Label className="sr-only" htmlFor="gender">
+              Gender
             </Label>
 
             <Select
-              defaultValue={selectedGender as string}
-              value={selectedGender as string}
-              onValueChange={(value: Gender) => setSelectedGender(value)}
+              defaultValue={user.gender || "NONE"}
+              onValueChange={(value: Gender) => setValue("gender", value)}
+              {...register("gender")}
             >
               <SelectTrigger className="w-[400px]">
                 <SelectValue />
