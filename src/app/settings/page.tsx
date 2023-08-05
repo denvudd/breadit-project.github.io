@@ -31,7 +31,12 @@ const page = async ({}) => {
         <h1 className="font-bold text-3xl md:text-4xl mb-2">Settings</h1>
       </div>
       <div className="grid gap-6">
-        <AvatarForm/>
+        <AvatarForm
+          user={{
+            id: session.user.id,
+            image: user?.image || "",
+          }}
+        />
         <UserNameForm
           user={{
             id: session.user.id,

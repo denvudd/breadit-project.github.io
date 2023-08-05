@@ -49,7 +49,7 @@ const NameForm: React.FC<NameFormProps> = ({ user }) => {
     onError: () => {
       toast({
         title: "There was an error",
-        description: "Could not create subreddit.",
+        description: "Could not change name.",
         variant: "destructive",
       });
     },
