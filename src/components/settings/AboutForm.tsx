@@ -28,7 +28,7 @@ interface UserAboutFormProps {
   user: Pick<User, "id" | "about">;
 }
 
-const UserAboutForm: React.FC<UserAboutFormProps> = ({ user }) => {
+const AboutForm: React.FC<UserAboutFormProps> = ({ user }) => {
   const router = useRouter();  
 
   const {
@@ -100,4 +100,4 @@ const UserAboutForm: React.FC<UserAboutFormProps> = ({ user }) => {
   );
 };
 
-export default UserAboutForm;
+export default AboutForm;

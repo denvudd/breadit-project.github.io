@@ -81,19 +81,14 @@ const AvatarForm: React.FC<AvatarFormProps> = ({ user }) => {
                 endpoint="avatarUploader"
                 onClientUploadComplete={(res) => {
                   if (res) {
-                    // Do something with the response
                     setAvatar(res[0].fileUrl);
                   }
                 }}
                 onUploadError={(error: Error) => {
-                  // Do something with the error.
                   alert(`ERROR! ${error.message}`);
                 }}
               />
             </div>
-            {/* {errors?.name && (
-              <p className="px-1 text-xs text-red-600">{errors.name.message}</p>
-            )} */}
           </div>
         </CardContent>
         <CardFooter>

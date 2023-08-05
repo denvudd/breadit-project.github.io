@@ -1,11 +1,12 @@
 import AvatarForm from "@/components/settings/AvatarForm";
 import NameForm from "@/components/settings/NameForm";
-import UserAboutForm from "@/components/settings/UserAboutForm";
-import UserNameForm from "@/components/settings/UserNameForm";
+import AboutForm from "@/components/settings/AboutForm";
+import UsernameForm from "@/components/settings/UsernameForm";
 import { authOptions, getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import React from "react";
+import GenderForm from "@/components/settings/GenderForm";
 
 export const metadata = {
   title: "Settings",
@@ -37,7 +38,7 @@ const page = async ({}) => {
             image: user?.image || "",
           }}
         />
-        <UserNameForm
+        <UsernameForm
           user={{
             id: session.user.id,
             username: user?.username || "",
@@ -49,10 +50,16 @@ const page = async ({}) => {
             name: user?.name || "",
           }}
         />
-        <UserAboutForm
+        <AboutForm
           user={{
             id: session.user.id,
             about: user?.about || "",
+          }}
+        />
+        <GenderForm
+          user={{
+            id: session.user.id,
+            gender: user?.gender || null,
           }}
         />
       </div>

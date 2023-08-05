@@ -25,7 +25,7 @@ interface UserNameFormProps {
   user: Pick<User, "id" | "username">;
 }
 
-const UserNameForm: React.FC<UserNameFormProps> = ({ user }) => {
+const UsernameForm: React.FC<UserNameFormProps> = ({ user }) => {
   const router = useRouter();
 
   const {
@@ -109,4 +109,4 @@ const UserNameForm: React.FC<UserNameFormProps> = ({ user }) => {
   );
 };
 
-export default UserNameForm;
+export default UsernameForm;
