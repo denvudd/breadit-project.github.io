@@ -82,7 +82,7 @@ const GenderForm: React.FC<UserNameFormProps> = ({ user }) => {
     <form action="" onSubmit={handleSubmit((e) => changeGender(e))}>
       <Card>
         <CardHeader>
-          <CardTitle>Your gender</CardTitle>
+          <CardTitle>Your gender (optional)</CardTitle>
           <CardDescription>
             This information may be used to improve your recommendations and
             ads.
@@ -119,7 +119,7 @@ const GenderForm: React.FC<UserNameFormProps> = ({ user }) => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button isLoading={isGenderLoading}>Change gender</Button>
+          <Button isLoading={isGenderLoading}>Save gender</Button>
         </CardFooter>
       </Card>
     </form>

@@ -52,7 +52,7 @@ const AboutForm: React.FC<UserAboutFormProps> = ({ user }) => {
     onError: () => {
       toast({
         title: "There was an error",
-        description: "Could not create subreddit.",
+        description: "Could not change your biography.",
         variant: "destructive",
       });
     },
@@ -93,7 +93,7 @@ const AboutForm: React.FC<UserAboutFormProps> = ({ user }) => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button isLoading={isAboutLoading}>Change biography</Button>
+          <Button isLoading={isAboutLoading}>Save biography</Button>
         </CardFooter>
       </Card>
     </form>

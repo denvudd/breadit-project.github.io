@@ -62,7 +62,7 @@ const AvatarForm: React.FC<AvatarFormProps> = ({ user }) => {
         </CardHeader>
         <CardContent>
           <div className="relative grid gap-1">
-            <Label className="sr-only" htmlFor="name">
+            <Label className="sr-only" htmlFor="avatar">
               Avatar
             </Label>
             {avatar && (
@@ -96,7 +96,7 @@ const AvatarForm: React.FC<AvatarFormProps> = ({ user }) => {
             isLoading={isAvatarLoading}
             onClick={() => changeAvatar(avatar)}
           >
-            Change avatar
+            Save avatar
           </Button>
         </CardFooter>
       </Card>

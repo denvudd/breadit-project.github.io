@@ -89,7 +89,7 @@ const NameForm: React.FC<NameFormProps> = ({ user }) => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button isLoading={isNameLoading}>Change name</Button>
+          <Button isLoading={isNameLoading}>Save name</Button>
         </CardFooter>
       </Card>
     </form>

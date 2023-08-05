@@ -76,7 +76,7 @@ const UsernameForm: React.FC<UserNameFormProps> = ({ user }) => {
     <form action="" onSubmit={handleSubmit((e) => changeUsername(e))}>
       <Card>
         <CardHeader>
-          <CardTitle>Your username</CardTitle>
+          <CardTitle>Username</CardTitle>
           <CardDescription>
             Please enter a display username you are comfortable with.
           </CardDescription>
@@ -102,7 +102,7 @@ const UsernameForm: React.FC<UserNameFormProps> = ({ user }) => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button isLoading={isUsernameLoading}>Change username</Button>
+          <Button isLoading={isUsernameLoading}>Save username</Button>
         </CardFooter>
       </Card>
     </form>
