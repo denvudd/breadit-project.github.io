@@ -61,22 +61,26 @@ const AvatarForm: React.FC<AvatarFormProps> = ({ user }) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="relative grid gap-1">
+          <div className="relative flex flex-wrap gap-5">
             <Label className="sr-only" htmlFor="avatar">
               Avatar
             </Label>
             {avatar && (
-              <a href={avatar}>
-                <Image
-                  src={avatar}
-                  className="w-40"
-                  width={160}
-                  height={160}
-                  alt="profile avatar"
-                />
-              </a>
+              <div className="flex flex-col gap-2 mb-2">
+                <p className="text-sm text-muted-foreground">Current photo:</p>
+                <a href={avatar}>
+                  <Image
+                    src={avatar}
+                    className="w-40 rounded-full"
+                    width={160}
+                    height={160}
+                    alt="profile avatar"
+                  />
+                </a>
+              </div>
             )}
-            <div className="w-80">
+            <div className="w-80 grid gap-1">
+              <p className="text-sm text-muted-foreground">Upload new photo:</p>
               <UploadDropzone
                 endpoint="avatarUploader"
                 onClientUploadComplete={(res) => {

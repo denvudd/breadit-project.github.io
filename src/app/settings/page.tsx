@@ -7,6 +7,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import React from "react";
 import GenderForm from "@/components/settings/GenderForm";
+import EmailForm from "@/components/settings/EmailForm";
 
 export const metadata = {
   title: "Settings",
@@ -42,6 +43,12 @@ const page = async ({}) => {
           user={{
             id: session.user.id,
             username: user?.username || "",
+          }}
+        />
+        <EmailForm
+          user={{
+            id: session.user.id,
+            email: user?.email || "",
           }}
         />
         <NameForm
