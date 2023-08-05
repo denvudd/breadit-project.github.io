@@ -57,6 +57,7 @@ const AddAbout: React.FC<AddAboutProps> = ({ subredditId, about }) => {
       });
 
       router.refresh();
+      setIsVisible(false);
     },
   });
 
@@ -67,7 +68,6 @@ const AddAbout: React.FC<AddAboutProps> = ({ subredditId, about }) => {
     };
 
     changeAbout(payload);
-    console.log(payload);
   };
 
   return (
@@ -81,7 +81,7 @@ const AddAbout: React.FC<AddAboutProps> = ({ subredditId, about }) => {
             className: "w-full justify-start",
           })}
         >
-          Add description
+          {about ? "Change" : "Add"} description
         </Button>
       )}
       {isVisible && (
