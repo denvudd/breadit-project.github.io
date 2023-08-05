@@ -1,3 +1,4 @@
+import AddAbout from "@/components/AddAbout";
 import DeleteCommunity from "@/components/DeleteCommunity";
 import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle";
 import ToFeedButton from "@/components/ToFeedButton";
@@ -44,6 +45,7 @@ const Layout = async ({ children, params }: LayoutProps) => {
       });
 
   const isSubscribed = !!subscription;
+  const isAuthor = subreddit.creatorId === session?.user.id;
 
   const memberCount = await db.subscription.count({
     where: {
@@ -63,6 +65,18 @@ const Layout = async ({ children, params }: LayoutProps) => {
             <div className="px-6 py-4 bg-zinc-100">
               <p className="font-semibold py-3">About r/{subreddit.name}</p>
             </div>
+            {isAuthor && (
+              <div className="flex w-full px-6 pt-4 bg-white">
+                <AddAbout subredditId={subreddit.id} about={subreddit.about} />
+              </div>
+            )}
+
+            {subreddit.about && (
+              <dl className="flex flex-col gap-2 w-full px-6 pt-4 bg-white text-sm leading-6">
+                <dt className="text-gray-500">About</dt>
+                <dd>{subreddit.about}</dd>
+              </dl>
+            )}
 
             <dl className="divide-y divide-gray-100 px-6 py-4 text-sm leading-6 bg-white">
               <div className="flex justify-between gap-x-4 py-3">
@@ -81,12 +95,12 @@ const Layout = async ({ children, params }: LayoutProps) => {
                 </dd>
               </div>
 
-              {subreddit.creatorId === session?.user.id && (
+              {isAuthor && (
                 <div className="flex justify-between gap-x-4 py-3">
                   <p className="text-gray-500">You created this community</p>
                 </div>
               )}
-              {subreddit.creatorId !== session?.user.id && (
+              {isAuthor && (
                 <SubscribeLeaveToggle
                   subredditId={subreddit.id}
                   subredditName={subreddit.name}
@@ -104,9 +118,7 @@ const Layout = async ({ children, params }: LayoutProps) => {
                 Create Post
               </Link>
 
-              {subreddit.creatorId === session?.user.id && (
-                <DeleteCommunity communityId={subreddit.id} />
-              )}
+              {isAuthor && <DeleteCommunity communityId={subreddit.id} />}
             </dl>
           </div>
         </div>

@@ -74,6 +74,8 @@ model Subreddit {
   updatedAt DateTime @updatedAt
   posts     Post[]
 
+  about String?
+
   creatorId   String?
   creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id])
   subscribers Subscription[]
