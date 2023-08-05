@@ -3,6 +3,8 @@
 
 Built with the Next.js App Router, TypeScript & Tailwind
 
+[![Breaddit](https://i.ibb.co/GxKKNS7/Screenshot-2023-08-05-22-13-16-1.png)](https://breaddit-devud.vercel.app/)
+
 
 ## Features
 
@@ -16,6 +18,11 @@ Built with the Next.js App Router, TypeScript & Tailwind
  - Image uploads & link previews
  - Full comment functionality with nested replies
  - ... and much more
+
+> **Warning**
+> This project is still in development and is not ready for production use.
+>
+> It uses new technologies (server actions, drizzle ORM) which are subject to change and may break your application.
 
 ## Full Stack
 - Next.js 13
