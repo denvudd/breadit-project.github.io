@@ -15,14 +15,14 @@ export async function PATCH(req: Request) {
 
     const { about, subredditId } = SubredditAboutValidator.parse(body);
 
-    const subscribtionExists = await db.subscription.findFirst({
+    const subscribtionExists = await db.subreddit.findFirst({
       where: {
-        subredditId,
-        userId: session.user.id,
+        id: subredditId,
+        creatorId: session.user.id,
       },
     });
 
-    if (subscribtionExists) {
+    if (!subscribtionExists) {
       return new Response("Subreddit doesn't exist", {
         status: 400,
       });
@@ -37,7 +37,9 @@ export async function PATCH(req: Request) {
       },
     });
 
-    return new Response("About text for this subreddit has been updated successfully");
+    return new Response(
+      "About text for this subreddit has been updated successfully"
+    );
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response("Invalid request data passed", { status: 422 });

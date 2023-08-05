@@ -9,14 +9,19 @@ import {
 } from "@/lib/validators/subreddit";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { toast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 interface AddAboutProps {
   subredditId: string;
+  about: string | null;
 }
 
-const AddAbout: React.FC<AddAboutProps> = ({ subredditId }) => {
+const AddAbout: React.FC<AddAboutProps> = ({ subredditId, about }) => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
-  const [about, setAbout] = React.useState<string>("");
+  const router = useRouter();
 
   const {
     register,
@@ -26,11 +31,34 @@ const AddAbout: React.FC<AddAboutProps> = ({ subredditId }) => {
     resolver: zodResolver(SubredditAboutValidator),
     defaultValues: {
       subredditId,
-      about,
+      about: about ?? undefined,
     },
   });
   const { ref: aboutRef, ...rest } = register("about");
   const _aboutRef = React.useRef<HTMLTextAreaElement>(null);
+  
+  const { mutate: changeAbout, isLoading: isAboutLoading } = useMutation({
+    mutationFn: async ({ about, subredditId }: SubredditAboutPayload) => {
+      const payload: SubredditAboutPayload = { about, subredditId };
+
+      const { data } = await axios.patch(`/api/subreddit/info/about`, payload);
+      return data;
+    },
+    onError: () => {
+      toast({
+        title: "There was an error",
+        description: "Could not change description for this subreddit.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: () => {
+      toast({
+        description: "Description for this subreddit has been updated.",
+      });
+
+      router.refresh();
+    },
+  });
 
   const onSubmit = async (data: SubredditAboutPayload) => {
     const payload: SubredditAboutPayload = {
@@ -38,7 +66,7 @@ const AddAbout: React.FC<AddAboutProps> = ({ subredditId }) => {
       about: data.about,
     };
 
-    // changeAbout(payload);
+    changeAbout(payload);
     console.log(payload);
   };
 
@@ -70,6 +98,7 @@ const AddAbout: React.FC<AddAboutProps> = ({ subredditId }) => {
             }}
             {...rest}
             placeholder="Tell us about your community"
+            defaultValue={about ?? undefined}
             className="w-full resize-none appearance-none overflow-hidden focus:outline-none flex 
             rounded-md border border-input bg-transparent px-3 py-2 text-sm 
             ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none 
@@ -100,6 +129,7 @@ const AddAbout: React.FC<AddAboutProps> = ({ subredditId }) => {
                     "text-green-500 hover:bg-green-500 hover:text-gray-100 text-xs",
                 })}
                 type="submit"
+                isLoading={isAboutLoading}
               >
                 Save
               </Button>

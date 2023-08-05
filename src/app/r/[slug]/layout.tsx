@@ -66,7 +66,7 @@ const Layout = async ({ children, params }: LayoutProps) => {
             </div>
             {subreddit.creatorId === session?.user.id && (
               <div className="flex w-full px-6 pt-4 bg-white">
-                <AddAbout subredditId={subreddit.id} />
+                <AddAbout subredditId={subreddit.id} about={subreddit.about} />
               </div>
             )}
             <dl className="divide-y divide-gray-100 px-6 py-4 text-sm leading-6 bg-white">
