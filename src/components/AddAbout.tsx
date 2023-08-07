@@ -26,8 +26,6 @@ interface AddAboutProps {
 const AddAbout: React.FC<AddAboutProps> = ({ subredditId, about }) => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
   const [characterCount, setCharacterCount] = React.useState(0);
-  console.log(characterCount);
-  
   const router = useRouter();
 
   const {

@@ -6,6 +6,7 @@ import { buttonVariants } from "@/components/ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { format } from "date-fns";
+import { Users, Cake } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -82,7 +83,11 @@ const Layout = async ({ children, params }: LayoutProps) => {
               <div className="flex justify-between gap-x-4 py-3">
                 <dt className="text-gray-500 dark:text-gray-300">Created</dt>
                 <dd className="text-gray-700 dark:text-gray-200">
-                  <time dateTime={subreddit.createdAt.toDateString()}>
+                  <time
+                    dateTime={subreddit.createdAt.toDateString()}
+                    className="flex items-center gap-1"
+                  >
+                    <Cake className="w-4 h-4" />
                     {format(subreddit.createdAt, "MMMM d, yyyy")}
                   </time>
                 </dd>
@@ -91,13 +96,17 @@ const Layout = async ({ children, params }: LayoutProps) => {
               <div className="flex justify-between gap-x-4 py-3">
                 <dt className="text-gray-500 dark:text-gray-300">Members</dt>
                 <dd className="text-gray-700 dark:text-gray-500">
-                  <div className="text-gray-900 dark:text-gray-200">{memberCount}</div>
+                  <div className="text-gray-900 dark:text-gray-200 flex items-center gap-1">
+                    <Users className="w-4 h-4" /> {memberCount}
+                  </div>
                 </dd>
               </div>
 
               {isAuthor && (
                 <div className="flex justify-between gap-x-4 py-3">
-                  <p className="text-gray-500 dark:text-gray-200">You created this community</p>
+                  <p className="text-gray-500 dark:text-gray-200">
+                    You created this community
+                  </p>
                 </div>
               )}
               {isAuthor && (

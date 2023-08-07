@@ -71,7 +71,7 @@ const SearchBar: React.FC<SearchBarProps> = ({}) => {
         }}
       />
       {input.length > 0 && (
-        <CommandList className="absolute bg-white top-full inset-x-0 shadow rounded-b-md">
+        <CommandList className="absolute bg-white dark:bg-slate-900 top-full inset-x-0 shadow rounded-b-md">
           {isFetched && <CommandEmpty>No results found.</CommandEmpty>}
           {(queryResults?.length ?? 0) > 0 && (
             <CommandGroup heading="Communities">
