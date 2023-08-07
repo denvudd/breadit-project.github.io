@@ -75,7 +75,7 @@ model Subreddit {
   posts     Post[]
 
   about String? @db.VarChar(500)
-  rules   Rule[]
+  rules Rule[]
 
   creatorId   String?
   creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id])

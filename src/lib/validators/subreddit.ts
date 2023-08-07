@@ -17,9 +17,16 @@ export const SubredditAboutValidator = z.object({
   about: z.string().min(1).max(500),
 });
 
+export const SubredditRuleValidator = z.object({
+  subredditId: z.string(),
+  title: z.string().min(1).max(100),
+  description: z.string().optional(),
+});
+
 export type CreateSubredditPayload = z.infer<typeof SubredditValidator>;
 export type DeleteSubredditPayload = z.infer<typeof DeleteSubredditValidator>;
 export type SubscribeToSubredditPayload = z.infer<
   typeof SubredditSubscriptionValidator
 >;
 export type SubredditAboutPayload = z.infer<typeof SubredditAboutValidator>;
+export type SubredditRulePayload = z.infer<typeof SubredditRuleValidator>;

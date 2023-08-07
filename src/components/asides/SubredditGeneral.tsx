@@ -1,4 +1,3 @@
-import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import type { Subreddit } from "@prisma/client";
 import { format } from "date-fns";
@@ -9,18 +8,21 @@ import AddAbout from "../AddAbout";
 import DeleteCommunity from "../DeleteCommunity";
 import SubscribeLeaveToggle from "../SubscribeLeaveToggle";
 import { buttonVariants } from "../ui/Button";
+import { Session } from "next-auth";
 
-interface SubredditGeneralAsideProps {
+interface SubredditGeneralProps {
   slug: string;
   subreddit: Subreddit;
+  session: Session | null;
+  isAuthor: boolean;
 }
 
 const SubredditGeneral = async ({
   slug,
   subreddit,
-}: SubredditGeneralAsideProps) => {
-  const session = await getAuthSession();
-
+  session,
+  isAuthor
+}: SubredditGeneralProps) => {
   const subscription = !session?.user
     ? undefined
     : await db.subscription.findFirst({
@@ -35,7 +37,6 @@ const SubredditGeneral = async ({
       });
 
   const isSubscribed = !!subscription;
-  const isAuthor = subreddit.creatorId === session?.user.id;
 
   const memberCount = await db.subscription.count({
     where: {
