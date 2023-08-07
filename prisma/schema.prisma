@@ -53,7 +53,7 @@ model User {
   emailVerified DateTime?
 
   username String? @unique
-  about    String?
+  about    String? @db.VarChar(300)
   gender   Gender? @default(NONE)
 
   image             String?
@@ -74,7 +74,7 @@ model Subreddit {
   updatedAt DateTime @updatedAt
   posts     Post[]
 
-  about String?
+  about String? @db.VarChar(500)
 
   creatorId   String?
   creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id])
@@ -110,7 +110,7 @@ model Post {
 
 model Comment {
   id        String   @id @default(cuid())
-  text      String
+  text      String   @db.Text
   createdAt DateTime @default(now())
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
