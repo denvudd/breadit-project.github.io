@@ -13,6 +13,10 @@ import axios from "axios";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+
+const MAX_CHARACTERS = 500;
+const WARNING_THRESHOLD = 50;
 
 interface AddAboutProps {
   subredditId: string;
@@ -21,6 +25,9 @@ interface AddAboutProps {
 
 const AddAbout: React.FC<AddAboutProps> = ({ subredditId, about }) => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
+  const [characterCount, setCharacterCount] = React.useState(0);
+  console.log(characterCount);
+  
   const router = useRouter();
 
   const {
@@ -36,7 +43,7 @@ const AddAbout: React.FC<AddAboutProps> = ({ subredditId, about }) => {
   });
   const { ref: aboutRef, ...rest } = register("about");
   const _aboutRef = React.useRef<HTMLTextAreaElement>(null);
-  
+
   const { mutate: changeAbout, isLoading: isAboutLoading } = useMutation({
     mutationFn: async ({ about, subredditId }: SubredditAboutPayload) => {
       const payload: SubredditAboutPayload = { about, subredditId };
@@ -104,10 +111,20 @@ const AddAbout: React.FC<AddAboutProps> = ({ subredditId, about }) => {
             ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none 
             focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 
             disabled:cursor-not-allowed disabled:opacity-50"
+            onChange={(e) => {
+              const inputText = e.target.value;
+              setCharacterCount(MAX_CHARACTERS - inputText.length);
+            }}
           />
+          {errors?.about && (
+            <p className="px-1 text-xs text-red-600">{errors.about.message}</p>
+          )}
           <div className="flex space-between items-center w-full">
-            <span className="text-xs text-gray-300 w-full">
-              500 Characters remaining
+            <span className={cn("text-xs text-gray-300 w-full", {
+              "text-yellow-500": characterCount <= WARNING_THRESHOLD && characterCount > 0,
+              "text-red-500": characterCount <= 0,
+            })}>
+              {characterCount} Characters remaining
             </span>
             <div className="flex md:justify-end gap-2 mt-1 w-full">
               <Button
