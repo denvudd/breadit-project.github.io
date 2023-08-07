@@ -95,12 +95,12 @@ const PostVoteClient: React.FC<PostVoteClientProps> = ({
         aria-label="upvote"
       >
         <ArrowBigUp
-          className={cn("h-5 w-5 text-zinc-700", {
+          className={cn("h-5 w-5 text-zinc-700 dark:text-zinc-400", {
             "text-emerald-500 fill-emerald-500": currentVote === "UP",
           })}
         />
       </Button>
-      <p className="text-center py-2 font-medium text-sm text-zinc-900">
+      <p className="text-center py-2 font-medium text-sm text-zinc-900 dark:text-zinc-100">
         {votesAmount}
       </p>
       <Button
@@ -110,7 +110,7 @@ const PostVoteClient: React.FC<PostVoteClientProps> = ({
         aria-label="downvote"
       >
         <ArrowBigDown
-          className={cn("h-5 w-5 text-zinc-700", {
+          className={cn("h-5 w-5 text-zinc-700 dark:text-zinc-400", {
             "text-red-500 fill-red-500": currentVote === "DOWN",
           })}
         />

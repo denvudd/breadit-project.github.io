@@ -17,7 +17,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ session }) => {
   const pathname = usePathname();
 
   return (
-    <li className="overflow-hidden rounded-md bg-white shadow list-none">
+    <li className="overflow-hidden rounded-md bg-white dark:bg-slate-900 shadow list-none">
       <div className="h-full px-6 py-4 flex justify-between gap-6">
         <div className="relative">
           <UserAvatar
@@ -37,13 +37,13 @@ const CreatePost: React.FC<CreatePostProps> = ({ session }) => {
           variant="ghost"
           onClick={() => router.push(`${pathname}/submit`)}
         >
-          <ImageIcon className="text-zinc-600" />
+          <ImageIcon className="text-zinc-600 dark:text-zinc-400" />
         </Button>
         <Button
           variant="ghost"
           onClick={() => router.push(`${pathname}/submit`)}
         >
-          <Link2 className="text-zinc-600" />
+          <Link2 className="text-zinc-600 dark:text-zinc-400" />
         </Button>
       </div>
     </li>

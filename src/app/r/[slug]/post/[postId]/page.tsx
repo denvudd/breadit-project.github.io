@@ -47,7 +47,7 @@ const page = async ({ params }: PageProps) => {
   if (!post && !cachedPost) return notFound();
 
   return (
-    <div className="rounded-md bg-white shadow p-4">
+    <div className="rounded-md bg-white dark:bg-slate-900 shadow p-4">
       <div className="flex justify-between">
         <React.Suspense fallback={<PostVoteShell />}>
           {/* @ts-expect-error server component */}
@@ -66,12 +66,12 @@ const page = async ({ params }: PageProps) => {
           />
         </React.Suspense>
         <div className="w-0 flex-1">
-          <div className="max-h-40 mt-1 text-xs text-gray-500">
+          <div className="max-h-40 mt-1 text-xs text-gray-500 dark:text-gray-300">
             {post?.subreddit.name ? (
               <>
                 <a
                   href={`/r/${post.subreddit.name}`}
-                  className="underline text-zinc-900 text-sm underline-offset-2"
+                  className="underline text-zinc-900 dark:text-zinc-100 text-sm underline-offset-2"
                 >
                   r/{post.subreddit.name}
                 </a>
@@ -84,7 +84,7 @@ const page = async ({ params }: PageProps) => {
             {formatTimeToNow(new Date(post?.createdAt ?? cachedPost.createdAt))}
           </div>
 
-          <h1 className="text-xl font-semibold py-2 leading-6 text-gray-900">
+          <h1 className="text-xl font-semibold py-2 leading-6 text-gray-900 dark:text-gray-100">
             {post?.title ?? cachedPost.title}
           </h1>
 

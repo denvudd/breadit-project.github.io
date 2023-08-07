@@ -61,27 +61,27 @@ const Layout = async ({ children, params }: LayoutProps) => {
         <ToFeedButton />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
           <div className="flex flex-col col-span-2 space-y-6">{children}</div>
-          <div className="hidden md:block overflow-hidden h-fit rounded-lg border border-gray-300 order-first md:order-last">
-            <div className="px-6 py-4 bg-zinc-100">
+          <div className="hidden md:block overflow-hidden h-fit rounded-lg border border-gray-300 dark:border-gray-600 order-first md:order-last">
+            <div className="px-6 py-4 bg-zinc-100 dark:bg-gray-950">
               <p className="font-semibold py-3">About r/{subreddit.name}</p>
             </div>
             {isAuthor && (
-              <div className="flex w-full px-6 pt-4 bg-white">
+              <div className="flex w-full px-6 pt-4 bg-white dark:bg-slate-900">
                 <AddAbout subredditId={subreddit.id} about={subreddit.about} />
               </div>
             )}
 
             {subreddit.about && (
-              <dl className="flex flex-col gap-2 w-full px-6 pt-4 bg-white text-sm leading-6">
-                <dt className="text-gray-500">About</dt>
+              <dl className="flex flex-col gap-2 w-full px-6 pt-4 bg-white dark:bg-slate-900 text-sm leading-6">
+                <dt className="text-gray-500 dark:text-gray-300">About</dt>
                 <dd>{subreddit.about}</dd>
               </dl>
             )}
 
-            <dl className="divide-y divide-gray-100 px-6 py-4 text-sm leading-6 bg-white">
+            <dl className="divide-y divide-gray-100 dark:divide-gray-600 px-6 py-4 text-sm leading-6 bg-white dark:bg-slate-900">
               <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500">Created</dt>
-                <dd className="text-gray-700">
+                <dt className="text-gray-500 dark:text-gray-300">Created</dt>
+                <dd className="text-gray-700 dark:text-gray-200">
                   <time dateTime={subreddit.createdAt.toDateString()}>
                     {format(subreddit.createdAt, "MMMM d, yyyy")}
                   </time>
@@ -89,15 +89,15 @@ const Layout = async ({ children, params }: LayoutProps) => {
               </div>
 
               <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500">Members</dt>
-                <dd className="text-gray-700">
-                  <div className="text-gray-900">{memberCount}</div>
+                <dt className="text-gray-500 dark:text-gray-300">Members</dt>
+                <dd className="text-gray-700 dark:text-gray-500">
+                  <div className="text-gray-900 dark:text-gray-200">{memberCount}</div>
                 </dd>
               </div>
 
               {isAuthor && (
                 <div className="flex justify-between gap-x-4 py-3">
-                  <p className="text-gray-500">You created this community</p>
+                  <p className="text-gray-500 dark:text-gray-200">You created this community</p>
                 </div>
               )}
               {isAuthor && (

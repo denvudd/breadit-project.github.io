@@ -115,7 +115,7 @@ const AddAbout: React.FC<AddAboutProps> = ({ subredditId, about }) => {
                   variant: "ghost",
                   size: "xs",
                   className:
-                    "text-red-500 hover:bg-red-500 hover:text-gray-100 text-xs",
+                    "dark:bg-transparent text-red-500 hover:bg-red-500 hover:text-gray-100 dark:text-red-500 dark:hover:bg-red-500 dark:hover:text-gray-100 text-xs",
                 })}
                 onClick={() => setIsVisible(false)}
               >
@@ -126,7 +126,7 @@ const AddAbout: React.FC<AddAboutProps> = ({ subredditId, about }) => {
                   variant: "ghost",
                   size: "xs",
                   className:
-                    "text-green-500 hover:bg-green-500 hover:text-gray-100 text-xs",
+                    "dark:bg-transparent text-green-500 hover:bg-green-500 hover:text-gray-100 dark:text-green-500 dark:hover:bg-green-500 dark:hover:text-gray-100 text-xs",
                 })}
                 type="submit"
                 isLoading={isAboutLoading}

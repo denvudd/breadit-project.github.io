@@ -14,6 +14,7 @@ import type EditorJS from "@editorjs/editorjs";
 import { uploadFiles } from "@/lib/uploadthing";
 import { toast } from "@/hooks/use-toast";
 import axios, { AxiosError } from "axios";
+
 interface EditorProps {
   subredditId: string;
 }
@@ -194,7 +195,7 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
   }, []);
 
   return (
-    <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
+    <div className="w-full p-4 bg-zinc-50 dark:bg-slate-900 rounded-lg border border-zinc-200 dark:border-zinc-500">
       <form
         id="subreddit-post-form"
         className="w-fit"
