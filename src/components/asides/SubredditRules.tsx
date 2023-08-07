@@ -27,14 +27,22 @@ const SubredditRules: React.FC<SubredditRulesProps> = ({
         r/{subredditName} rules
       </p>
       {isAuthor && (
-        <div className="flex w-full px-6 bg-white dark:bg-slate-900">
+        <div className="flex flex-col w-full px-6 bg-white dark:bg-slate-900">
+          <p className="text-gray-500 dark:text-gray-300 text-sm w-full mb-2">
+            Help subscribers understand the rules of this subreddit and explain
+            to them how they should behave and what is not acceptable.
+          </p>
           <AddRule subredditId={subredditId} />
         </div>
       )}
-      <Accordion type="single" collapsible>
-        {rules.map((rule) => (
-          <AccordionItem key={rule.id} value="item-1">
-            <AccordionTrigger>{rule.name}</AccordionTrigger>
+      <Accordion
+        type="single"
+        collapsible
+        className="w-full px-6 pt-4 bg-white dark:bg-slate-900 text-sm leading-6"
+      >
+        {rules.map((rule, index) => (
+          <AccordionItem key={rule.id} value={rule.id}>
+            <AccordionTrigger>{index + 1}. {rule.name}</AccordionTrigger>
             {rule.description && (
               <AccordionContent>{rule.description}</AccordionContent>
             )}

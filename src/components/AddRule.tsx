@@ -11,6 +11,10 @@ import { useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 import { Button, buttonVariants } from "./ui/Button";
 import { Label } from "./ui/Label";
+import { useLoginToast } from "@/hooks/use-login-toast";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { toast } from "@/hooks/use-toast";
 
 interface AddRuleProps {
   subredditId: string;
@@ -19,6 +23,7 @@ interface AddRuleProps {
 const AddRule: React.FC<AddRuleProps> = ({ subredditId }) => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
   const router = useRouter();
+  const { loginToast } = useLoginToast();
 
   const {
     register,
@@ -32,6 +37,44 @@ const AddRule: React.FC<AddRuleProps> = ({ subredditId }) => {
       description: undefined,
     },
   });
+  const { mutate: createRule, isLoading: isRuleLoading } = useMutation({
+    mutationFn: async ({
+      title,
+      description,
+      subredditId,
+    }: SubredditRulePayload) => {
+      const payload: SubredditRulePayload = {
+        subredditId,
+        title,
+        description,
+      };
+      const { data } = await axios.post("/api/subreddit/info/rules", payload);
+      return data as string;
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        // if user are unauthorized
+        if (error.response?.status === 401) {
+          return loginToast();
+        }
+      }
+
+      return toast({
+        title: "Something went wrong",
+        description: "Your post was not published, please try again later.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: () => {
+      setIsVisible(false);
+      router.refresh();
+
+      return toast({
+        description: "Your rule for subreddit has been published.",
+      });
+    },
+  });
+
   const { ref: titleRef, ...titleRest } = register("title");
   const { ref: descrRef, ...descrRest } = register("description");
   const _titleRef = React.useRef<HTMLTextAreaElement>(null);
@@ -44,7 +87,7 @@ const AddRule: React.FC<AddRuleProps> = ({ subredditId }) => {
       subredditId,
     };
 
-    // createRule(payload);
+    createRule(payload);
   };
 
   return (
@@ -55,7 +98,7 @@ const AddRule: React.FC<AddRuleProps> = ({ subredditId }) => {
           className={buttonVariants({
             variant: "subtle",
             size: "sm",
-            className: "w-full justify-start mb-4",
+            className: "w-full justify-start",
           })}
         >
           Add rule
@@ -68,9 +111,7 @@ const AddRule: React.FC<AddRuleProps> = ({ subredditId }) => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="prose prose-stone dark:prose-invert">
-            <Label className="text-xs">
-              Title
-            </Label>
+            <Label className="text-xs">Title</Label>
             <TextareaAutosize
               ref={(e) => {
                 titleRef(e);
@@ -93,9 +134,7 @@ const AddRule: React.FC<AddRuleProps> = ({ subredditId }) => {
             )}
           </div>
           <div className="prose prose-stone dark:prose-invert">
-            <Label className="text-xs">
-              Description (optional)
-            </Label>
+            <Label className="text-xs">Description (optional)</Label>
             <TextareaAutosize
               ref={(e) => {
                 descrRef(e);
@@ -117,8 +156,13 @@ const AddRule: React.FC<AddRuleProps> = ({ subredditId }) => {
               </p>
             )}
           </div>
-          <div className="flex md:justify-end w-full">
-            <Button type="submit">Save</Button>
+          <div className="flex md:justify-end gap-2 w-full">
+            <Button variant="subtle" onClick={() => setIsVisible(false)}>
+              Save
+            </Button>
+            <Button type="submit" isLoading={isRuleLoading}>
+              Save
+            </Button>
           </div>
         </form>
       )}
