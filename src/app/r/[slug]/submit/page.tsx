@@ -20,12 +20,12 @@ const page = async ({ params }: PageProps) => {
   
   return (
     <div className="flex flex-col items-start gap-6">
-      <div className="border-b border-gray-200">
+      <div className="">
         <div className="-ml-2 -mt-2 flex flex-wrap items-baseline">
-          <h3 className="ml-2 mt-2 text-base font-semibold leading-6 text-gray-900">
+          <h3 className="ml-2 mt-2 text-base font-semibold leading-6 text-gray-900 dark:text-gray-100">
             Create Post
           </h3>
-          <p className="ml-2 mt-1 truncate text-sm text-gray-500">
+          <p className="ml-2 mt-1 truncate text-sm text-gray-500 dark:text-gray-300">
             in r/{params.slug}
           </p>
         </div>

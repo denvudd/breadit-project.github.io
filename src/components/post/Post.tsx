@@ -26,7 +26,7 @@ const Post: React.FC<PostProps> = ({
   const postRef = React.useRef<HTMLDivElement>(null);
 
   return (
-    <div className="rounded-md bg-white shadow">
+    <div className="rounded-md bg-white dark:bg-slate-900 shadow">
       <div className="p-4 flex justify-between">
         <PostVoteClient
           postId={post.id}
@@ -34,12 +34,12 @@ const Post: React.FC<PostProps> = ({
           initVotesAmount={votesAmount}
         />
         <div className="w-0 flex-1">
-          <div className="max-h-40 mt-1 text-xs text-gray-500">
+          <div className="max-h-40 mt-1 text-xs text-gray-500 dark:text-gray-300">
             {subredditName ? (
               <>
                 <a
                   href={`/r/${subredditName}`}
-                  className="underline text-zinc-900 text-sm underline-offset-2"
+                  className="underline text-zinc-900 dark:text-zinc-100 text-sm underline-offset-2"
                 >
                   r/{subredditName}
                 </a>
@@ -51,7 +51,7 @@ const Post: React.FC<PostProps> = ({
           </div>
 
           <a href={`/r/${subredditName}/post/${post.id}`}>
-            <h1 className="text-lg font-semibold py-2 leading-6 text-gray-900">
+            <h1 className="text-lg font-semibold py-2 leading-6 text-gray-900 dark:text-gray-100">
               {post.title}
             </h1>
           </a>
@@ -64,13 +64,13 @@ const Post: React.FC<PostProps> = ({
             {postRef.current?.clientHeight === 160 ? (
               <a
                 href={`/r/${subredditName}/post/${post.id}`}
-                className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent"
+                className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white dark:from-slate-900 to-transparent"
               ></a>
             ) : null}
           </div>
         </div>
       </div>
-      <div className="bg-gray-50 z-20 text-sm p-4 sm:px-6">
+      <div className="bg-gray-50 dark:bg-gray-900 z-20 text-sm p-4 sm:px-6">
         <a
           className="w-fit flex items-center gap-2"
           href={`/r/${subredditName}/post/${post.id}`}
