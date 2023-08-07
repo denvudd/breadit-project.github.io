@@ -75,12 +75,24 @@ model Subreddit {
   posts     Post[]
 
   about String? @db.VarChar(500)
+  rules   Rule[]
 
   creatorId   String?
   creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id])
   subscribers Subscription[]
 
   @@index([name])
+}
+
+model Rule {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  subredditId String?
+  subreddit   Subreddit? @relation(fields: [subredditId], references: [id])
 }
 
 model Subscription {
