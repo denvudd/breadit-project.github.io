@@ -25,9 +25,7 @@ interface AddAboutProps {
 
 const AddAbout: React.FC<AddAboutProps> = ({ subredditId, about }) => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
-  const [characterCount, setCharacterCount] = React.useState(
-    about ? about.length : 500
-  );
+  const [characterCount, setCharacterCount] = React.useState(0);
   const router = useRouter();
 
   const {
@@ -120,13 +118,10 @@ const AddAbout: React.FC<AddAboutProps> = ({ subredditId, about }) => {
             <p className="px-1 text-xs text-red-600">{errors.about.message}</p>
           )}
           <div className="flex space-between items-center w-full">
-            <span
-              className={cn("text-xs text-gray-300 w-full", {
-                "text-yellow-500":
-                  characterCount <= WARNING_THRESHOLD && characterCount > 0,
-                "text-red-500": characterCount <= 0,
-              })}
-            >
+            <span className={cn("text-xs text-gray-300 w-full", {
+              "text-yellow-500": characterCount <= WARNING_THRESHOLD && characterCount > 0,
+              "text-red-500": characterCount <= 0,
+            })}>
               {characterCount} Characters remaining
             </span>
             <div className="flex md:justify-end gap-2 mt-1 w-full">
