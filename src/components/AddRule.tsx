@@ -48,7 +48,10 @@ const AddRule: React.FC<AddRuleProps> = ({ subredditId }) => {
         title,
         description,
       };
-      const { data } = await axios.post("/api/subreddit/info/rules", payload);
+      const { data } = await axios.post(
+        "/api/subreddit/info/rules/create",
+        payload
+      );
       return data as string;
     },
     onError: (error) => {
@@ -75,6 +78,7 @@ const AddRule: React.FC<AddRuleProps> = ({ subredditId }) => {
     },
   });
 
+  // TODO: make the proper validation for this form
   const { ref: titleRef, ...titleRest } = register("title");
   const { ref: descrRef, ...descrRest } = register("description");
   const _titleRef = React.useRef<HTMLTextAreaElement>(null);
@@ -157,10 +161,14 @@ const AddRule: React.FC<AddRuleProps> = ({ subredditId }) => {
             )}
           </div>
           <div className="flex md:justify-end gap-2 w-full">
-            <Button variant="subtle" onClick={() => setIsVisible(false)}>
-              Save
+            <Button
+              size="sm"
+              variant="subtle"
+              onClick={() => setIsVisible(false)}
+            >
+              Cancel
             </Button>
-            <Button type="submit" isLoading={isRuleLoading}>
+            <Button size="sm" type="submit" isLoading={isRuleLoading}>
               Save
             </Button>
           </div>

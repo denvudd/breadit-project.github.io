@@ -7,6 +7,7 @@ import {
 } from "../ui/Accordion";
 import React from "react";
 import AddRule from "../AddRule";
+import DeleteRule from "../DeleteRule";
 
 interface SubredditRulesProps {
   rules: Rule[];
@@ -42,7 +43,14 @@ const SubredditRules: React.FC<SubredditRulesProps> = ({
       >
         {rules.map((rule, index) => (
           <AccordionItem key={rule.id} value={rule.id}>
-            <AccordionTrigger>{index + 1}. {rule.name}</AccordionTrigger>
+            <div className="group w-full">
+              <div className="w-full flex justify-between items-center mr-2">
+                <AccordionTrigger className="w-full justify-between gap-2">
+                  {index + 1}. {rule.name}{" "}
+                </AccordionTrigger>
+                <DeleteRule ruleId={rule.id} subredditId={subredditId} />
+              </div>
+            </div>
             {rule.description && (
               <AccordionContent>{rule.description}</AccordionContent>
             )}

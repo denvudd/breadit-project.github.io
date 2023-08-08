@@ -20,7 +20,12 @@ export const SubredditAboutValidator = z.object({
 export const SubredditRuleValidator = z.object({
   subredditId: z.string(),
   title: z.string().min(1).max(100),
-  description: z.string().optional(),
+  description: z.string().max(200).optional(),
+});
+
+export const SubredditDeleteRuleValidator = z.object({
+  subredditId: z.string(),
+  ruleId: z.string(),
 });
 
 export type CreateSubredditPayload = z.infer<typeof SubredditValidator>;
@@ -30,3 +35,6 @@ export type SubscribeToSubredditPayload = z.infer<
 >;
 export type SubredditAboutPayload = z.infer<typeof SubredditAboutValidator>;
 export type SubredditRulePayload = z.infer<typeof SubredditRuleValidator>;
+export type SubredditDeleteRulePayload = z.infer<
+  typeof SubredditDeleteRuleValidator
+>;

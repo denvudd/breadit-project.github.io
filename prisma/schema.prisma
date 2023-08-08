@@ -86,13 +86,13 @@ model Subreddit {
 
 model Rule {
   id          String   @id @default(cuid())
-  name        String
-  description String?
+  name        String   @db.VarChar(100)
+  description String?  @db.VarChar(200)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  subredditId String?
-  subreddit   Subreddit? @relation(fields: [subredditId], references: [id])
+  subredditId String
+  subreddit   Subreddit @relation(fields: [subredditId], references: [id])
 }
 
 model Subscription {
