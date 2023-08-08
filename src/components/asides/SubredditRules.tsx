@@ -37,8 +37,7 @@ const SubredditRules: React.FC<SubredditRulesProps> = ({
         </div>
       )}
       <Accordion
-        type="single"
-        collapsible
+        type="multiple"
         className="w-full px-6 pt-4 bg-white dark:bg-slate-900 text-sm leading-6"
       >
         {rules.map((rule, index) => (

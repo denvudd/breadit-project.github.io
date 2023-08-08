@@ -20,7 +20,7 @@ export const SubredditAboutValidator = z.object({
 export const SubredditRuleValidator = z.object({
   subredditId: z.string(),
   title: z.string().min(1).max(100),
-  description: z.string().max(200).optional(),
+  description: z.string().max(500).optional(),
 });
 
 export const SubredditDeleteRuleValidator = z.object({
