@@ -29,6 +29,7 @@ const AddRule: React.FC<AddRuleProps> = ({ subredditId }) => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<SubredditRulePayload>({
     resolver: zodResolver(SubredditRuleValidator),
     defaultValues: {
@@ -70,6 +71,7 @@ const AddRule: React.FC<AddRuleProps> = ({ subredditId }) => {
     },
     onSuccess: () => {
       setIsVisible(false);
+      reset();
       router.refresh();
 
       return toast({
