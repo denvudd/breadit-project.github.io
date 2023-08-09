@@ -1,4 +1,3 @@
-import { Rule } from "@prisma/client";
 import {
   Accordion,
   AccordionItem,
@@ -8,27 +7,32 @@ import {
 import React from "react";
 import AddRule from "../AddRule";
 import DeleteRule from "../DeleteRule";
+import { db } from "@/lib/db";
 
 interface SubredditRulesProps {
-  rules: Rule[];
   subredditName: string;
   subredditId: string;
   isAuthor: boolean;
 }
 
-const SubredditRules: React.FC<SubredditRulesProps> = ({
-  rules,
+const SubredditRules = async ({
   subredditName,
   subredditId,
   isAuthor,
-}) => {
+}: SubredditRulesProps) => {
+  const rules = await db.rule.findMany({
+    where: {
+      subredditId,
+    },
+  });
+
   return (
     <div className="hidden md:block overflow-hidden h-fit rounded-lg border border-gray-300 dark:border-gray-600 order-first md:order-last">
       <p className="bg-white dark:bg-slate-900 px-6 py-4 border-b border-gray-300 dark:border-gray-600">
         r/{subredditName} rules
       </p>
       {isAuthor && (
-        <div className="flex flex-col w-full px-6 py-2 bg-white dark:bg-slate-900">
+        <div className="flex flex-col w-full px-6 py-4 bg-white dark:bg-slate-900">
           <p className="text-gray-500 dark:text-gray-300 text-sm w-full mb-2">
             Help subscribers understand the rules of this subreddit and explain
             to them how they should behave and what is not acceptable.
@@ -37,14 +41,14 @@ const SubredditRules: React.FC<SubredditRulesProps> = ({
         </div>
       )}
       {!rules.length && (
-        <div className="divide-y divide-gray-100 dark:divide-gray-600 w-full px-6 py-2 bg-white dark:bg-slate-900 text-sm leading-6">
+        <div className="divide-y divide-gray-100 dark:divide-gray-600 w-full px-6 pt-2 pb-4 bg-white dark:bg-slate-900 text-sm leading-6">
           <p>Rules have not been created for this subreddit yet.</p>
         </div>
       )}
       {!!rules.length && (
         <Accordion
           type="multiple"
-          className="w-full px-6 pt-2 bg-white dark:bg-slate-900 text-sm leading-6"
+          className="w-full px-6 pt-2 pb-4 bg-white dark:bg-slate-900 text-sm leading-6"
         >
           {rules.map((rule, index) => (
             <AccordionItem key={rule.id} value={rule.id}>

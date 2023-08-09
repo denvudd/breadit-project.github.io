@@ -1,5 +1,6 @@
 import ToFeedButton from "@/components/ToFeedButton";
 import SubredditGeneral from "@/components/asides/SubredditGeneral";
+import SubredditLinks from "@/components/asides/SubredditLinks";
 import SubredditRules from "@/components/asides/SubredditRules";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -16,15 +17,6 @@ const Layout = async ({ children, params }: LayoutProps) => {
 
   const subreddit = await db.subreddit.findFirst({
     where: { name: slug },
-    include: {
-      // posts: {
-      //   include: {
-      //     author: true,
-      //     votes: true,
-      //   },
-      // },
-      rules: true,
-    },
   });
 
   if (!subreddit) return notFound();
@@ -45,11 +37,16 @@ const Layout = async ({ children, params }: LayoutProps) => {
                 session={session}
                 isAuthor={isAuthor}
               />
+              {/* @ts-expect-error server component */}
               <SubredditRules
-                rules={subreddit.rules}
                 subredditName={subreddit.name}
                 subredditId={subreddit.id}
                 isAuthor={isAuthor}
+              />
+              {/* @ts-expect-error server component */}
+              <SubredditLinks
+                isAuthor={isAuthor}
+                subredditId={subreddit.id}
               />
             </div>
           </div>
