@@ -28,13 +28,31 @@ export const SubredditDeleteRuleValidator = z.object({
   ruleId: z.string(),
 });
 
+export const SubredditLinkValidator = z.object({
+  subredditId: z.string(),
+  title: z.string().min(1).max(100),
+  link: z.string().url(),
+});
+
+export const SubredditDeleteLinkValidator = z.object({
+  subredditId: z.string(),
+  linkId: z.string(),
+});
+
 export type CreateSubredditPayload = z.infer<typeof SubredditValidator>;
 export type DeleteSubredditPayload = z.infer<typeof DeleteSubredditValidator>;
+
 export type SubscribeToSubredditPayload = z.infer<
   typeof SubredditSubscriptionValidator
 >;
 export type SubredditAboutPayload = z.infer<typeof SubredditAboutValidator>;
+
 export type SubredditRulePayload = z.infer<typeof SubredditRuleValidator>;
 export type SubredditDeleteRulePayload = z.infer<
   typeof SubredditDeleteRuleValidator
+>;
+
+export type SubredditLinkPayload = z.infer<typeof SubredditLinkValidator>;
+export type SubredditDeleteLinkPayload = z.infer<
+  typeof SubredditDeleteLinkValidator
 >;
