@@ -76,6 +76,7 @@ model Subreddit {
 
   about String? @db.VarChar(500)
   rules Rule[]
+  links SubredditLink[]
 
   creatorId   String?
   creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id])
@@ -91,6 +92,17 @@ model Rule {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  subredditId String
+  subreddit   Subreddit @relation(fields: [subredditId], references: [id])
+}
+
+model SubredditLink {
+  id        String   @id @default(cuid())
+  title     String
+  link      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
   subredditId String
   subreddit   Subreddit @relation(fields: [subredditId], references: [id])
 }
