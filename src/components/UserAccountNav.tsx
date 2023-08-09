@@ -20,7 +20,7 @@ interface UserAccountNavProps {
 
 const UserAccountNav: React.FC<UserAccountNavProps> = ({ user }) => {
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger>
         <UserAvatar
           user={{
