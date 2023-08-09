@@ -74,7 +74,7 @@ model Subreddit {
   updatedAt DateTime @updatedAt
   posts     Post[]
 
-  about String? @db.VarChar(500)
+  about String?         @db.VarChar(500)
   rules Rule[]
   links SubredditLink[]
 
@@ -98,11 +98,12 @@ model Rule {
 
 model SubredditLink {
   id        String   @id @default(cuid())
-  title     String
-  link      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
+  title     String   @db.VarChar(100)
+  link      String
+
   subredditId String
   subreddit   Subreddit @relation(fields: [subredditId], references: [id])
 }
