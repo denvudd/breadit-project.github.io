@@ -37,12 +37,12 @@ const SubredditLinks = async ({
         </div>
       )}
       {!!links.length && (
-        <div className="flex flex-col gap-2 w-full px-6 pb-4 bg-white dark:bg-slate-900 text-sm leading-6">
+        <div className="flex flex-col gap-2 w-full px-6 py-4 bg-white dark:bg-slate-900 text-sm leading-6">
           {links.map((link, index) => (
             <div className="group w-full flex justify-between items-center mr-2" key={link.id}>
               <a
                 href={link.link}
-                className="underline-offset-4 hover:underline hover:text-sky-600"
+                className="underline-offset-4 hover:underline hover:text-sky-600 text-sky-500"
               >
                 {index + 1}. {link.title}
               </a>
