@@ -53,7 +53,9 @@ const SubredditRules: React.FC<SubredditRulesProps> = ({
                   <AccordionTrigger className="w-full justify-between gap-2">
                     {index + 1}. {rule.name}{" "}
                   </AccordionTrigger>
-                  <DeleteRule ruleId={rule.id} subredditId={subredditId} />
+                  {isAuthor && (
+                    <DeleteRule ruleId={rule.id} subredditId={subredditId} />
+                  )}
                 </div>
               </div>
               {rule.description && (
