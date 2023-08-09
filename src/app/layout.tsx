@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster/Toaster";
 import Providers from "@/components/Providers";
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata = {
   title: "Breaddit - Dive into anything",
@@ -37,6 +38,7 @@ export default function RootLayout({
           </div>
           <Toaster />
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
