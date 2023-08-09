@@ -42,11 +42,11 @@ export async function POST(req: Request) {
       });
     }
 
-    db.subredditLink.create({
+    await db.subredditLink.create({
       data: {
         title,
         subredditId,
-        link
+        link,
       }
     })
 

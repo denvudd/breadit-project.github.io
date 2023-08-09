@@ -65,7 +65,7 @@ const AddRule: React.FC<AddRuleProps> = ({ subredditId }) => {
 
       return toast({
         title: "Something went wrong",
-        description: "Your post was not published, please try again later.",
+        description: "Your rule was not published, please try again later.",
         variant: "destructive",
       });
     },
@@ -80,7 +80,6 @@ const AddRule: React.FC<AddRuleProps> = ({ subredditId }) => {
     },
   });
 
-  // TODO: make the proper validation for this form
   const { ref: titleRef, ...titleRest } = register("title");
   const { ref: descrRef, ...descrRest } = register("description");
   const _titleRef = React.useRef<HTMLTextAreaElement>(null);
@@ -107,7 +106,7 @@ const AddRule: React.FC<AddRuleProps> = ({ subredditId }) => {
             className: "w-full justify-start",
           })}
         >
-          Add rule
+          Add new rule
         </Button>
       )}
       {isVisible && (
