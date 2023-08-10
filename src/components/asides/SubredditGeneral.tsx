@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import type { Subreddit } from "@prisma/client";
 import { format } from "date-fns";
-import { Cake, Users } from "lucide-react";
+import { Cake, Users, Share } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import AddAbout from "../AddAbout";
@@ -21,7 +21,7 @@ const SubredditGeneral = async ({
   slug,
   subreddit,
   session,
-  isAuthor
+  isAuthor,
 }: SubredditGeneralProps) => {
   const subscription = !session?.user
     ? undefined
@@ -48,8 +48,11 @@ const SubredditGeneral = async ({
 
   return (
     <div className="hidden md:block overflow-hidden h-fit rounded-lg border border-gray-300 dark:border-gray-600 order-first md:order-last">
-      <div className="px-6 py-4 bg-zinc-100 dark:bg-gray-950">
+      <div className="px-6 py-4 bg-zinc-100 dark:bg-gray-950 flex items-center justify-between">
         <p className="font-semibold py-3">About r/{subreddit.name}</p>
+        <Link href={`/r/${slug}/share`}>
+          <Share className="h-4 w-4" />
+        </Link>
       </div>
       {isAuthor && (
         <div className="flex w-full px-6 pt-4 bg-white dark:bg-slate-900">

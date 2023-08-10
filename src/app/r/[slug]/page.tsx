@@ -5,17 +5,6 @@ import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import { notFound } from "next/navigation";
 import CreatePost from "@/components/post/CreatePost";
 import PostFeed from "@/components/feed/PostFeed";
-import { buttonVariants } from "@/components/ui/Button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardFooter,
-} from "@/components/ui/Card";
-import { MessageSquare, Plus } from "lucide-react";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
 import SubredditHints from "@/components/subreddit-hints/SubredditHints";
 
 interface PageProps {
@@ -46,7 +35,6 @@ const Page = async ({ params }: PageProps) => {
   });
 
   if (!subreddit) return notFound();
-  const isAuthor = subreddit.creatorId === session?.user.id;
 
   return (
     <>
