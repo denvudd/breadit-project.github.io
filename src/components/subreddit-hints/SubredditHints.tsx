@@ -54,7 +54,7 @@ const SubredditHints: React.FC<SubredditHintsProps> = ({ slug }) => {
                         className: hint.buttonStyle,
                       })
                     )}
-                    href={`r/${slug}/${hint.action}`}
+                    href={`/r/${slug}/${hint.action}`}
                   >
                     {hint.buttonText}
                   </Link>

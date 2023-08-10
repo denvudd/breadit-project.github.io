@@ -8,10 +8,11 @@ import { notFound } from "next/navigation";
 
 interface LayoutProps {
   children: React.ReactNode;
+  shareModal: React.ReactNode;
   params: { slug: string };
 }
 
-const Layout = async ({ children, params }: LayoutProps) => {
+const Layout = async ({ children, params, shareModal }: LayoutProps) => {
   const session = await getAuthSession();
   const { slug } = params;
 
@@ -24,6 +25,7 @@ const Layout = async ({ children, params }: LayoutProps) => {
 
   return (
     <div className="sm:container max-w-7xl mx-auto h-full pt-12">
+      {shareModal}
       <div>
         <ToFeedButton />
         <div>
