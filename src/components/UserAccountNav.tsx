@@ -27,7 +27,7 @@ const UserAccountNav: React.FC<UserAccountNavProps> = ({ user }) => {
             name: user.name || null,
             image: user.image || null,
           }}
-          className="h-8 w-8"
+          className="h-9 w-9 border-2 border-gray-300 dark:border-slate-950"
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-white dark:bg-slate-900" align="end">
