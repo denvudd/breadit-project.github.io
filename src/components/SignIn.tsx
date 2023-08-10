@@ -16,7 +16,7 @@ const SignIn: React.FC<SignInProps> = ({}) => {
           User Agreement and Privacy Policy.
         </p>
         <UserAuthForm />
-        <p className="px-8 text-center text-sm text-zinc-700">
+        <p className="px-8 text-center text-sm text-zinc-700 dark:text-zinc-400">
           New to Breaddit?{" "}
           <Link
             href="/sign-up"
