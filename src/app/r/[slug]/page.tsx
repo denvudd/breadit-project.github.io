@@ -55,7 +55,7 @@ const Page = async ({ params }: PageProps) => {
       </h1>
       <CreatePost session={session} />
       {/* Hints for new subreddit creator */}
-      {!subreddit.posts.length && isAuthor && <SubredditHints slug={slug} />}
+      {true && <SubredditHints slug={slug} />}
       <PostFeed initPosts={subreddit.posts} subredditName={subreddit.name} />
     </>
   );
