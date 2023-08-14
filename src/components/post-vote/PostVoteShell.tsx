@@ -8,7 +8,7 @@ const PostVoteShell = () => {
       <div className={buttonVariants({ variant: "ghost" })}>
         <ArrowBigUp className="h-5 w-5 text-zinc-700" />
       </div>
-      <div className="text-center py-2 font-medium text-sm text-zinc-900">
+      <div className="text-center py-2 font-medium text-sm text-zinc-900 dark:text-gray-200">
         <Loader2 className="h-3 w-3 animate-spin" />
       </div>
       <div className={buttonVariants({ variant: "ghost" })}>
