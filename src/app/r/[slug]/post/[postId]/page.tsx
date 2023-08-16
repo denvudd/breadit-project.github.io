@@ -7,7 +7,7 @@ import { redis } from "@/lib/redis";
 import { formatTimeToNow } from "@/lib/utils";
 import type { CachedPost } from "@/types/redis";
 import type { Post, Subreddit, User, Vote } from "@prisma/client";
-import { Loader2 } from "lucide-react";
+import { Loader2, MessageSquare } from "lucide-react";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -28,7 +28,12 @@ const page = async ({ params }: PageProps) => {
   )) as CachedPost;
 
   let post:
-    | (Post & { votes: Vote[]; author: User; subreddit: Subreddit })
+    | (Post & {
+        votes: Vote[];
+        author: User;
+        subreddit: Subreddit;
+        comments: Comment[];
+      })
     | null = null;
 
   if (!cachedPost) {
@@ -40,6 +45,7 @@ const page = async ({ params }: PageProps) => {
         votes: true,
         author: true,
         subreddit: true,
+        comments: true,
       },
     });
   }
@@ -79,6 +85,17 @@ const page = async ({ params }: PageProps) => {
                 <span className="px-1">•</span>
               </>
             )}
+            {cachedPost.subreddit?.name && (
+              <>
+                <a
+                  href={`/r/${cachedPost.subreddit.name}`}
+                  className="underline text-zinc-900 dark:text-zinc-100 text-sm underline-offset-2"
+                >
+                  r/{cachedPost.subreddit.name}
+                </a>
+                <span className="px-1">•</span>
+              </>
+            )}
             <span>
               Posted by u/{post?.author.username ?? cachedPost.authorUsername}
             </span>{" "}
@@ -89,7 +106,26 @@ const page = async ({ params }: PageProps) => {
             {post?.title ?? cachedPost.title}
           </h1>
 
-          <EditorOutput content={post?.content ?? cachedPost.content} />
+          <div>
+            <EditorOutput content={post?.content ?? cachedPost.content} />
+          </div>
+          <div className="flex w-full justify-end gap-3 pt-2">
+            {/* @ts-expect-error server component */}
+            <PostVoteServer
+              postId={post?.id ?? cachedPost.id}
+              className="w-fit flex flex-row gap-1 p-0 sm:hidden"
+              getData={async () => {
+                return await db.post.findUnique({
+                  where: {
+                    id: params.postId,
+                  },
+                  include: {
+                    votes: true,
+                  },
+                });
+              }}
+            />
+          </div>
         </div>
       </div>
       <React.Suspense
