@@ -12,7 +12,7 @@ import type { PostVoteRequest } from "@/lib/validators/vote";
 import axios, { AxiosError } from "axios";
 import { toast } from "@/hooks/use-toast";
 
-interface PostVoteClientProps {
+interface PostVoteClientProps extends React.HTMLAttributes<HTMLDivElement> {
   postId: string;
   initVotesAmount: number;
   initVote?: VoteType | null;
@@ -29,6 +29,7 @@ const PostVoteClient: React.FC<PostVoteClientProps> = ({
   postId,
   initVotesAmount,
   initVote,
+  className,
 }) => {
   const { loginToast } = useLoginToast();
   const [votesAmount, setVotesAmount] = React.useState<number>(initVotesAmount);
@@ -71,7 +72,8 @@ const PostVoteClient: React.FC<PostVoteClientProps> = ({
         if (voteType === "UP") setVotesAmount((prevAmount) => prevAmount - 1);
         else if (voteType === "DOWN")
           setVotesAmount((prevAmount) => prevAmount + 1);
-      } else { // if the user create new vote
+      } else {
+        // if the user create new vote
         setCurrentVote(voteType);
 
         if (voteType === "UP")
@@ -87,7 +89,12 @@ const PostVoteClient: React.FC<PostVoteClientProps> = ({
   }, [initVote]);
 
   return (
-    <div className="flex flex-col gap-2 sm:gap-0 pr-4 sm:w-18 pb-4 sm:pb-0">
+    <div
+      className={cn(
+        "flex flex-col gap-2 sm:gap-0 pr-4 sm:w-18 pb-4 sm:pb-0",
+        className
+      )}
+    >
       <Button
         onClick={() => vote("UP")}
         size="sm"

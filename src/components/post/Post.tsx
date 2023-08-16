@@ -32,6 +32,7 @@ const Post: React.FC<PostProps> = ({
           postId={post.id}
           initVote={currentVote?.type}
           initVotesAmount={votesAmount}
+          className="hidden sm:flex"
         />
         <div className="w-0 flex-1">
           <div className="max-h-40 mt-1 text-xs text-gray-500 dark:text-gray-300">
@@ -46,7 +47,9 @@ const Post: React.FC<PostProps> = ({
                 <span className="px-1">•</span>
               </>
             ) : null}
-            <span>Posted by u/{post.author.username}</span>{" "}
+            <span className="hidden sm:inline">
+              Posted by u/{post.author.username}
+            </span>{" "}
             {formatTimeToNow(new Date(post.createdAt))}
           </div>
 
@@ -70,7 +73,13 @@ const Post: React.FC<PostProps> = ({
           </div>
         </div>
       </div>
-      <div className="bg-gray-50 dark:bg-gray-900 z-20 text-sm p-4 sm:px-6">
+      <div className="flex gap-3 items-center bg-gray-50 dark:bg-gray-900 z-20 text-sm p-2 sm:p-4 sm:px-6">
+        <PostVoteClient
+          postId={post.id}
+          initVote={currentVote?.type}
+          initVotesAmount={votesAmount}
+          className="w-fit flex flex-row gap-1 p-0 sm:hidden"
+        />
         <a
           className="w-fit flex items-center gap-2"
           href={`/r/${subredditName}/post/${post.id}`}
