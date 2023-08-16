@@ -97,13 +97,12 @@ const SubredditGeneral = async ({
             </p>
           </div>
         )}
-        {isAuthor && (
-          <SubscribeLeaveToggle
-            subredditId={subreddit.id}
-            subredditName={subreddit.name}
-            isSubscribed={isSubscribed}
-          />
-        )}
+
+        <SubscribeLeaveToggle
+          subredditId={subreddit.id}
+          subredditName={subreddit.name}
+          isSubscribed={isSubscribed}
+        />
 
         <Link
           className={buttonVariants({

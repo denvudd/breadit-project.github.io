@@ -43,7 +43,9 @@ const Page = async ({ params }: PageProps) => {
       </h1>
       <CreatePost session={session} />
       {/* Hints for new subreddit creator */}
-      {true && <SubredditHints slug={slug} />}
+      {subreddit.creatorId === session?.user.id && (
+        <SubredditHints slug={slug} />
+      )}
       <PostFeed initPosts={subreddit.posts} subredditName={subreddit.name} />
     </>
   );
