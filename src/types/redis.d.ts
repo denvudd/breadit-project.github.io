@@ -7,4 +7,7 @@ export type CachedPost = {
   content: string;
   currentVote: Vote["type"] | null;
   createdAt: Date;
+  subreddit: {
+    name: string;
+  }
 }

@@ -53,6 +53,7 @@ const page = async ({ params }: PageProps) => {
           {/* @ts-expect-error server component */}
           <PostVoteServer
             postId={post?.id ?? cachedPost.id}
+            className="hidden sm:flex"
             getData={async () => {
               return await db.post.findUnique({
                 where: {
@@ -67,7 +68,7 @@ const page = async ({ params }: PageProps) => {
         </React.Suspense>
         <div className="w-0 flex-1">
           <div className="max-h-40 mt-1 text-xs text-gray-500 dark:text-gray-300">
-            {post?.subreddit.name ? (
+            {post?.subreddit.name && (
               <>
                 <a
                   href={`/r/${post.subreddit.name}`}
@@ -77,7 +78,7 @@ const page = async ({ params }: PageProps) => {
                 </a>
                 <span className="px-1">•</span>
               </>
-            ) : null}
+            )}
             <span>
               Posted by u/{post?.author.username ?? cachedPost.authorUsername}
             </span>{" "}
@@ -92,11 +93,11 @@ const page = async ({ params }: PageProps) => {
         </div>
       </div>
       <React.Suspense
-          fallback={<Loader2 className="h-5 w-5 animate-spin text-zinc-500" />}
-        >
-          {/* @ts-expect-error server component */}
-          <CommentSection postId={post?.id ?? cachedPost.id} />
-        </React.Suspense>
+        fallback={<Loader2 className="h-5 w-5 animate-spin text-zinc-500" />}
+      >
+        {/* @ts-expect-error server component */}
+        <CommentSection postId={post?.id ?? cachedPost.id} />
+      </React.Suspense>
     </div>
   );
 };

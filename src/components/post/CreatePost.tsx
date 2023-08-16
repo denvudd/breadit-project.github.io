@@ -18,7 +18,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ session }) => {
 
   return (
     <li className="overflow-hidden rounded-md bg-white dark:bg-slate-900 shadow list-none">
-      <div className="h-full px-6 py-4 flex justify-between gap-6">
+      <div className="h-full px-4 sm:px-6 py-4 flex justify-between gap-6">
         <div className="relative">
           <UserAvatar
             user={{
@@ -37,12 +37,14 @@ const CreatePost: React.FC<CreatePostProps> = ({ session }) => {
         <Button
           variant="ghost"
           onClick={() => router.push(`${pathname}/submit`)}
+          className="hidden sm:inline-flex"
         >
           <ImageIcon className="text-zinc-600 dark:text-zinc-400" />
         </Button>
         <Button
           variant="ghost"
           onClick={() => router.push(`${pathname}/submit`)}
+          className="hidden sm:inline-flex"
         >
           <Link2 className="text-zinc-600 dark:text-zinc-400" />
         </Button>

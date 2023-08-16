@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import React from "react";
 import PostVoteClient from "./PostVoteClient";
 
-interface PostVoteServerProps {
+interface PostVoteServerProps extends React.HTMLAttributes<HTMLDivElement> {
   postId: string;
   initVotesAmount: number;
   initVote?: VoteType | null;
@@ -23,6 +23,7 @@ const PostVoteServer = async ({
   initVotesAmount,
   initVote,
   getData,
+  className
 }: PostVoteServerProps) => {
   const session = await getAuthSession();
   let _votesAmount: number = 0;
@@ -53,6 +54,7 @@ const PostVoteServer = async ({
       postId={postId}
       initVotesAmount={_votesAmount}
       initVote={_currentVote}
+      className={className}
     />
   );
 };

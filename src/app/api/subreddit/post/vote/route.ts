@@ -34,6 +34,11 @@ export async function PATCH(req: Request) {
       include: {
         author: true,
         votes: true,
+        subreddit: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
 
@@ -85,6 +90,9 @@ export async function PATCH(req: Request) {
           title: post.title,
           currentVote: voteType,
           createdAt: post.createdAt,
+          subreddit: {
+            name: post.subreddit.name,
+          },
         };
 
         await redis.hset(`post: ${postId}`, cachePayload);
@@ -118,6 +126,9 @@ export async function PATCH(req: Request) {
         title: post.title,
         currentVote: voteType,
         createdAt: post.createdAt,
+        subreddit: {
+          name: post.subreddit.name,
+        },
       };
 
       await redis.hset(`post: ${postId}`, cachePayload);
