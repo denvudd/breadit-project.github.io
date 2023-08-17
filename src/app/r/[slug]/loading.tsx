@@ -1,6 +1,5 @@
 import CreatePostShell from "@/components/shells/CreatePostShell";
 import PostFeedShell from "@/components/shells/PostFeedShell";
-import SidebarShell from "@/components/shells/SidebarShell";
 import { Skeleton } from "@/components/ui/Skeleton";
 
 export default function SubredditLoading() {
@@ -15,7 +14,6 @@ export default function SubredditLoading() {
               <CreatePostShell/>
               <PostFeedShell/>
             </div>
-            <SidebarShell />
           </div>
         </div>
       </div>
