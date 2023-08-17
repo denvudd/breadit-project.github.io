@@ -74,9 +74,10 @@ model Subreddit {
   updatedAt DateTime @updatedAt
   posts     Post[]
 
-  about String?         @db.VarChar(500)
-  rules Rule[]
-  links SubredditLink[]
+  about  String?         @db.VarChar(500)
+  avatar String?
+  rules  Rule[]
+  links  SubredditLink[]
 
   creatorId   String?
   creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id])
@@ -101,8 +102,8 @@ model SubredditLink {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  title     String   @db.VarChar(100)
-  link      String
+  title String @db.VarChar(100)
+  link  String
 
   subredditId String
   subreddit   Subreddit @relation(fields: [subredditId], references: [id])
