@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useClipboard } from "@mantine/hooks";
 import {
   Dialog,
@@ -17,7 +17,8 @@ import { clsx } from "clsx";
 
 const Page: React.FC = () => {
   const router = useRouter();
-  const path = window.location.href.replace("/share", "");
+  const params = useParams();
+  const path = `${window.location.origin}/r/${params.slug}`;
   const { copy, copied } = useClipboard({ timeout: 2000 });
 
   return (
