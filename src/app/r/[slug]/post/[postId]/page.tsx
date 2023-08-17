@@ -132,7 +132,7 @@ const page = async ({ params }: PageProps) => {
           <>
             <a
               className="w-fit flex items-center gap-2 pl-3 sm:pl-0"
-              href={`#`}
+              href={`#comments`}
             >
               <MessageSquare className="h-4 w-4" />
               {post.comments.length}{" "}

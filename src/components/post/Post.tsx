@@ -83,7 +83,7 @@ const Post: React.FC<PostProps> = ({
         />
         <a
           className="w-fit flex items-center gap-2 pl-3 sm:pl-0"
-          href={`/r/${subredditName}/post/${post.id}`}
+          href={`/r/${subredditName}/post/${post.id}#comments`}
         >
           <MessageSquare className="h-4 w-4" />
           {commentAmount} <span className="hidden sm:inline">Comments</span>
