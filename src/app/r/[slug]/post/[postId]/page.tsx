@@ -6,8 +6,8 @@ import { db } from "@/lib/db";
 import { redis } from "@/lib/redis";
 import { formatTimeToNow } from "@/lib/utils";
 import type { CachedPost } from "@/types/redis";
-import type { Post, Subreddit, User, Vote } from "@prisma/client";
-import { Loader2, MessageSquare } from "lucide-react";
+import type { Post, Subreddit, User, Vote, Comment } from "@prisma/client";
+import { Loader2 } from "lucide-react";
 import { notFound } from "next/navigation";
 import React from "react";
 

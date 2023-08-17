@@ -5,6 +5,7 @@ import React from "react";
 import EditorOutput from "../EditorOutput";
 import PostVoteClient from "../post-vote/PostVoteClient";
 import type { Vote } from "@prisma/client";
+import SharePost from "../SharePost";
 
 type PartialVote = Pick<Vote, "type">;
 
@@ -73,7 +74,7 @@ const Post: React.FC<PostProps> = ({
           </div>
         </div>
       </div>
-      <div className="flex gap-3 items-center bg-gray-50 dark:bg-gray-900 z-20 text-sm p-2 sm:p-4 sm:px-6">
+      <div className="flex gap-3 items-center bg-gray-50 dark:bg-gray-900 z-20 text-sm p-2 sm:p-4 sm:px-6 divide-x sm:divide-none">
         <PostVoteClient
           postId={post.id}
           initVote={currentVote?.type}
@@ -81,12 +82,13 @@ const Post: React.FC<PostProps> = ({
           className="w-fit flex flex-row gap-1 p-0 sm:hidden"
         />
         <a
-          className="w-fit flex items-center gap-2"
+          className="w-fit flex items-center gap-2 pl-3 sm:pl-0"
           href={`/r/${subredditName}/post/${post.id}`}
         >
           <MessageSquare className="h-4 w-4" />
-          {commentAmount}
+          {commentAmount} <span className="hidden sm:inline">Comments</span>
         </a>
+        <SharePost subredditName={subredditName} subredditId={post.id} />
       </div>
     </div>
   );
