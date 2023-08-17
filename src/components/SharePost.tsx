@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -17,7 +19,9 @@ const SharePost: React.FC<SharePostProps> = ({
   subredditName,
   subredditId,
 }) => {
-  const path = `${window.location.origin}/r/${subredditName}/${subredditId}`;
+  const path =
+    typeof window !== "undefined" &&
+    `${window.location.origin}/r/${subredditName}/${subredditId}`;
   const { copy } = useClipboard();
 
   return (

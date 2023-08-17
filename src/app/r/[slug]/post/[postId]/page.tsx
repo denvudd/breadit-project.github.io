@@ -2,12 +2,13 @@ import CommentSection from "@/components/comments/CommentSection";
 import EditorOutput from "@/components/EditorOutput";
 import PostVoteServer from "@/components/post-vote/PostVoteServer";
 import PostVoteShell from "@/components/post-vote/PostVoteShell";
+import SharePost from "@/components/SharePost";
 import { db } from "@/lib/db";
 import { redis } from "@/lib/redis";
 import { formatTimeToNow } from "@/lib/utils";
 import type { CachedPost } from "@/types/redis";
 import type { Post, Subreddit, User, Vote, Comment } from "@prisma/client";
-import { Loader2 } from "lucide-react";
+import { Loader2, MessageSquare } from "lucide-react";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -85,7 +86,7 @@ const page = async ({ params }: PageProps) => {
                 <span className="px-1">•</span>
               </>
             )}
-            {cachedPost.subreddit?.name && (
+            {cachedPost?.subreddit?.name && (
               <>
                 <a
                   href={`/r/${cachedPost.subreddit.name}`}
@@ -109,24 +110,52 @@ const page = async ({ params }: PageProps) => {
           <div>
             <EditorOutput content={post?.content ?? cachedPost.content} />
           </div>
-          <div className="flex w-full justify-end gap-3 pt-2">
-            {/* @ts-expect-error server component */}
-            <PostVoteServer
-              postId={post?.id ?? cachedPost.id}
-              className="w-fit flex flex-row gap-1 p-0 sm:hidden"
-              getData={async () => {
-                return await db.post.findUnique({
-                  where: {
-                    id: params.postId,
-                  },
-                  include: {
-                    votes: true,
-                  },
-                });
-              }}
-            />
-          </div>
         </div>
+      </div>
+      <div className="flex gap-2 py-3 w-full font-medium text-sm text-zinc-900 dark:text-zinc-100">
+        {/* @ts-expect-error server component */}
+        <PostVoteServer
+          postId={post?.id ?? cachedPost.id}
+          className="w-fit flex flex-row gap-1 p-0 sm:hidden"
+          getData={async () => {
+            return await db.post.findUnique({
+              where: {
+                id: params.postId,
+              },
+              include: {
+                votes: true,
+              },
+            });
+          }}
+        />
+        {post?.comments.length && (
+          <>
+            <a
+              className="w-fit flex items-center gap-2 pl-3 sm:pl-0"
+              href={`#`}
+            >
+              <MessageSquare className="h-4 w-4" />
+              {post.comments.length}{" "}
+              <span className="hidden sm:inline">Comments</span>
+            </a>
+          </>
+        )}
+        {cachedPost?.commentsCount && (
+          <>
+            <a
+              className="w-fit flex items-center gap-2 pl-3 sm:pl-0"
+              href={`#`}
+            >
+              <MessageSquare className="h-4 w-4" />
+              {cachedPost.commentsCount}{" "}
+              <span className="hidden sm:inline">Comments</span>
+            </a>
+          </>
+        )}
+        <SharePost
+          subredditName={post?.subreddit.name ?? cachedPost.subreddit.name}
+          subredditId={post?.id ?? cachedPost.id}
+        />
       </div>
       <React.Suspense
         fallback={<Loader2 className="h-5 w-5 animate-spin text-zinc-500" />}

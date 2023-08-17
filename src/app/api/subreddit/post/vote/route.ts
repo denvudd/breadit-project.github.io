@@ -34,6 +34,11 @@ export async function PATCH(req: Request) {
       include: {
         author: true,
         votes: true,
+        comments: {
+          select: {
+            _count: true,
+          },
+        },
         subreddit: {
           select: {
             name: true,
@@ -93,6 +98,7 @@ export async function PATCH(req: Request) {
           subreddit: {
             name: post.subreddit.name,
           },
+          commentsCount: Number(post.comments[0]._count),
         };
 
         await redis.hset(`post: ${postId}`, cachePayload);
@@ -129,6 +135,7 @@ export async function PATCH(req: Request) {
         subreddit: {
           name: post.subreddit.name,
         },
+        commentsCount: Number(post.comments[0]._count),
       };
 
       await redis.hset(`post: ${postId}`, cachePayload);
