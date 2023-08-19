@@ -82,7 +82,7 @@ const AvatarForm: React.FC<AvatarFormProps> = ({ user }) => {
             <div className="w-80 grid gap-1">
               <p className="text-sm text-muted-foreground">Upload new photo:</p>
               <UploadDropzone
-                endpoint="avatarUploader"
+                endpoint="userAvatarUploader"
                 onClientUploadComplete={(res) => {
                   if (res) {
                     setAvatar(res[0].fileUrl);

@@ -6,6 +6,8 @@ import { notFound } from "next/navigation";
 import CreatePost from "@/components/post/CreatePost";
 import PostFeed from "@/components/feed/PostFeed";
 import SubredditHints from "@/components/subreddit-hints/SubredditHints";
+import Image from "next/image";
+import SubredditAvatar from "@/components/SubredditAvatar";
 
 interface PageProps {
   params: {
@@ -35,12 +37,26 @@ const Page = async ({ params }: PageProps) => {
   });
 
   if (!subreddit) return notFound();
+  const isAuthor = subreddit.creatorId === session?.user.id;
 
   return (
     <>
-      <h1 className="font-bold text-3xl md:text-4xl h-14">
-        r/{subreddit.name}
-      </h1>
+      <div className="flex items-center gap-4">
+        <div className="w-16 h-16">
+          <SubredditAvatar
+            avatar={subreddit.avatar}
+            subredditName={subreddit.name}
+            subredditId={subreddit.id}
+            isAuthor={isAuthor}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <h1 className="font-bold text-3xl md:text-4xl h-8">
+            {subreddit.name}
+          </h1>
+          <p className="font-medium text-gray-500">r/{subreddit.name}</p>
+        </div>
+      </div>
       <CreatePost session={session} />
       {/* Hints for new subreddit creator */}
       {subreddit.creatorId === session?.user.id && (
