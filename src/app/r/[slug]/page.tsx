@@ -37,6 +37,7 @@ const Page = async ({ params }: PageProps) => {
   });
 
   if (!subreddit) return notFound();
+  const isAuthor = subreddit.creatorId === session?.user.id;
 
   return (
     <>
@@ -46,6 +47,7 @@ const Page = async ({ params }: PageProps) => {
             avatar={subreddit.avatar}
             subredditName={subreddit.name}
             subredditId={subreddit.id}
+            isAuthor={isAuthor}
           />
         </div>
         <div className="flex flex-col gap-2">
