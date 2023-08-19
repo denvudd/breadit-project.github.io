@@ -25,7 +25,7 @@ const SharePost: React.FC<SharePostProps> = ({
   const { copy } = useClipboard();
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="w-fit flex items-center gap-2 pl-3 sm:pl-0">
         <Forward className="w-5 h-5" />
         Share
