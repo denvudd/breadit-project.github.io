@@ -1,7 +1,7 @@
 // This component by sadman from his Modern Skateshop ECommerce project
 // https://github.com/sadmann7/skateshop/tree/main
 
-import React from "react";
+import React, { type ReactNode } from "react";
 import {
   useDropzone,
   type Accept,
@@ -21,7 +21,6 @@ import "cropperjs/dist/cropper.css";
 
 import { cn, formatBytes } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { Trash, Upload } from "lucide-react";
 import FileCard from "./FileCard";
 
@@ -117,14 +116,8 @@ function FileDialog<TFieldValues extends FieldValues>({
   }, []);
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline" disabled={disabled}>
-          Upload Images
-          <span className="sr-only">Upload Images</span>
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[480px]">
+    <div>
+      <div className="sm:max-w-[480px]">
         <p className="absolute left-5 top-4 text-base font-medium text-muted-foreground">
           Upload your images
         </p>
@@ -199,8 +192,8 @@ function FileDialog<TFieldValues extends FieldValues>({
             <span className="sr-only">Remove all</span>
           </Button>
         ) : null}
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
 }
 
