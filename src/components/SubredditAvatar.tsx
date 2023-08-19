@@ -100,7 +100,7 @@ const SubredditAvatar: React.FC<SubredditAvatarProps> = ({
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             className={cn(
-              "w-16 h-16 rounded-full border-4 border-white bg-zinc-100 fill-blue-600 group-hover:opacity-75",
+              "w-16 h-16 rounded-full border-4 border-white bg-zinc-100 fill-blue-600",
               {
                 "group-hover:opacity-75": isAuthor,
               }
