@@ -10,15 +10,20 @@ import { isArrayOfFile } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "./ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/Dialog";
+import { useMutation } from "@tanstack/react-query";
+import { SubredditAvatarPayload } from "@/lib/validators/subreddit";
+import axios from "axios";
 
 interface SubredditAvatarProps {
   avatar: string | null;
   subredditName: string;
+  subredditId: string;
 }
 
 const SubredditAvatar: React.FC<SubredditAvatarProps> = ({
   avatar,
   subredditName,
+  subredditId,
 }) => {
   const [files, setFiles] = React.useState<FileWithPreview[] | null>(null);
   const [isPending, startTransition] = React.useTransition();
@@ -29,8 +34,32 @@ const SubredditAvatar: React.FC<SubredditAvatarProps> = ({
     "subredditAvatarUploader"
   );
 
+  const { mutate: changeAvatar, isLoading: isAvatarLoading } = useMutation({
+    mutationFn: async ({ subredditId, avatar }: SubredditAvatarPayload) => {
+      const payload: SubredditAvatarPayload = { avatar, subredditId };
+
+      const { data } = await axios.patch(`/api/subreddit/info/avatar`, payload);
+      return data;
+    },
+    onError: () => {
+      toast({
+        title: "There was an error",
+        description: "Could not change avatar.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: () => {
+      toast({
+        description: "Your avatar has been updated.",
+      });
+
+      form.reset();
+      setFiles(null);
+      window.location.reload();
+    },
+  });
+
   function onSubmit(data: any) {
-    console.log("work");
     startTransition(async () => {
       try {
         const images = isArrayOfFile(data.images)
@@ -44,15 +73,7 @@ const SubredditAvatar: React.FC<SubredditAvatarProps> = ({
             })
           : null;
 
-        console.log(images);
-
-        toast({
-          description: "Avatar has been updated.",
-        });
-
-        form.reset();
-        setFiles(null);
-        window.location.reload();
+        changeAvatar({ subredditId, avatar: images?.at(0)?.url });
       } catch (err) {
         console.log(err);
       }
@@ -112,7 +133,7 @@ const SubredditAvatar: React.FC<SubredditAvatarProps> = ({
                           size="sm"
                           className="mt-2.5 w-full"
                           onClick={() => form.trigger()}
-                          isLoading={isUploading}
+                          isLoading={isUploading || isAvatarLoading}
                         >
                           Submit
                           <span className="sr-only">Submit</span>

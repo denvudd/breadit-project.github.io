@@ -117,7 +117,7 @@ function FileDialog<TFieldValues extends FieldValues>({
 
   return (
     <div>
-      <div className="sm:max-w-[480px]">
+      <div className="sm:max-w-[480px] flex flex-col gap-4">
         <p className="absolute left-5 top-4 text-base font-medium text-muted-foreground">
           Upload your images
         </p>
@@ -127,7 +127,8 @@ function FileDialog<TFieldValues extends FieldValues>({
             "group relative mt-8 grid h-48 w-full cursor-pointer place-items-center rounded-lg border-2 border-dashed border-muted-foreground/25 px-5 py-2.5 text-center transition hover:bg-muted/25",
             "ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
             isDragActive && "border-muted-foreground/50",
-            disabled && "pointer-events-none opacity-60",
+            disabled ||
+              (files?.length === maxFiles && "pointer-events-none opacity-60"),
             className
           )}
           {...props}
@@ -154,12 +155,26 @@ function FileDialog<TFieldValues extends FieldValues>({
                 className="h-8 w-8 text-muted-foreground"
                 aria-hidden="true"
               />
-              <p className="mt-2 text-base font-medium text-muted-foreground">
-                Drag {`'n'`} drop file here, or click to select file
-              </p>
-              <p className="text-sm text-slate-500">
-                Please upload file with size less than {formatBytes(maxSize)}
-              </p>
+              {files?.length !== maxFiles ? (
+                <>
+                  <p className="mt-2 text-base font-medium text-muted-foreground">
+                    Drag {`'n'`} drop file here, or click to select file
+                  </p>
+                  <p className="text-sm text-slate-500">
+                    Please upload file with size less than{" "}
+                    {formatBytes(maxSize)}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="mt-2 text-base font-medium text-muted-foreground">
+                    You have uploaded the maximum number of files
+                  </p>
+                  <p className="text-sm text-slate-500">
+                    Please use the uploaded files or delete and upload others
+                  </p>
+                </>
+              )}
             </div>
           )}
         </div>
@@ -182,7 +197,7 @@ function FileDialog<TFieldValues extends FieldValues>({
         {files?.length ? (
           <Button
             type="button"
-            variant="outline"
+            variant="destructive"
             size="sm"
             className="mt-2.5 w-full"
             onClick={() => setFiles(null)}

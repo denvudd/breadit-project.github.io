@@ -45,6 +45,7 @@ const Page = async ({ params }: PageProps) => {
           <SubredditAvatar
             avatar={subreddit.avatar}
             subredditName={subreddit.name}
+            subredditId={subreddit.id}
           />
         </div>
         <div className="flex flex-col gap-2">
