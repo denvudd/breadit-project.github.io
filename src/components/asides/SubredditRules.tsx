@@ -54,7 +54,7 @@ const SubredditRules = async ({
             <AccordionItem key={rule.id} value={rule.id}>
               <div className="group w-full">
                 <div className="w-full flex justify-between items-center mr-2">
-                  <AccordionTrigger className="w-full justify-between gap-2">
+                  <AccordionTrigger className="w-full justify-between gap-2 text-start">
                     {index + 1}. {rule.name}{" "}
                   </AccordionTrigger>
                   {isAuthor && (
