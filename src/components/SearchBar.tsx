@@ -59,7 +59,7 @@ const SearchBar: React.FC<SearchBarProps> = ({}) => {
   return (
     <Command
       ref={commandRef}
-      className="relative rounded-lg border max-w-7xl z-50 overflow-visible mx-2"
+      className="relative rounded-lg border max-w-7xl z-50 overflow-visible mx-auto"
     >
       <CommandInput
         className="outline-none border-none focus:border-none focus:outline-none ring-0"
