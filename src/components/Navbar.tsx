@@ -1,20 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import { Icons } from "./ui/Icons";
-import { Button, buttonVariants } from "./ui/Button";
+import { buttonVariants } from "./ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import UserAccountNav from "./UserAccountNav";
 import SearchBar from "./SearchBar";
 import { db } from "@/lib/db";
-import { useTheme } from "next-themes";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "./ui/DropdownMenu";
-import { Sun, Moon } from "lucide-react";
 import ToggleTheme from "./ToggleTheme";
+import SubscribtionsCommand from "./SubscribtionsCommand";
 
 const Navbar = async () => {
   const session = await getAuthSession();
@@ -23,6 +16,19 @@ const Navbar = async () => {
     where: {
       id: session?.user.id,
     },
+    include: {
+      Subscription: {
+        select: {
+          subreddit: {
+            select: {
+              name: true,
+              avatar: true,
+              id: true,
+            }
+          }
+        }
+      },
+    }
   });
 
   return (
@@ -34,6 +40,7 @@ const Navbar = async () => {
             Breaddit
           </p>
         </Link>
+        <SubscribtionsCommand subscriptions={user?.Subscription}/>
         <SearchBar />
         <div className="flex gap-2 items-center">
           <ToggleTheme />
