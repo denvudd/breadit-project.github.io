@@ -54,7 +54,7 @@ export const SubredditAvatarValidator = z.object({
 
 export const SubredditNameValidator = z.object({
   subredditId: z.string(),
-  name: z.string().min(3).max(80),
+  title: z.string().min(3).max(80),
 });
 
 export type CreateSubredditPayload = z.infer<typeof SubredditValidator>;

@@ -15,18 +15,17 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "./ui/Button";
 
-interface EditSubredditNameProps {
+interface EditSubredditTitleProps {
   subredditId: string;
-  subredditName: string;
+  subredditTitle: string;
 }
 
-const EditSubredditName: React.FC<EditSubredditNameProps> = ({
+const EditSubredditTitle: React.FC<EditSubredditTitleProps> = ({
   subredditId,
-  subredditName,
+  subredditTitle,
 }) => {
   const router = useRouter();
   const { toast } = useToast();
-  const [isButtonVisible, setIsButtonVisible] = React.useState(true);
 
   const {
     register,
@@ -37,19 +36,17 @@ const EditSubredditName: React.FC<EditSubredditNameProps> = ({
     resolver: zodResolver(SubredditNameValidator),
     defaultValues: {
       subredditId,
-      name: subredditName ?? null,
+      title: subredditTitle ?? null,
     },
   });
 
-  const { ref: nameRef, ...rest } = register("name");
-  const _nameRef = React.useRef<HTMLTextAreaElement>(null);
-  const watchValue = watch("name");
+  const { ref: titleRef, ...rest } = register("title");
+  const _titleRef = React.useRef<HTMLTextAreaElement>(null);
+  const watchValue = watch("title");
 
-  console.log(watchValue);
-
-  const { mutate: changeName, isLoading: isNameLoading } = useMutation({
-    mutationFn: async ({ name, subredditId }: SubredditNamePayload) => {
-      const payload: SubredditNamePayload = { name, subredditId };
+  const { mutate: changeTitle, isLoading: isTitleLoading } = useMutation({
+    mutationFn: async ({ title, subredditId }: SubredditNamePayload) => {
+      const payload: SubredditNamePayload = { title, subredditId };
 
       const { data } = await axios.patch(`/api/subreddit/info/name`, payload);
       return data;
@@ -57,13 +54,13 @@ const EditSubredditName: React.FC<EditSubredditNameProps> = ({
     onError: () => {
       toast({
         title: "There was an error",
-        description: "Could not change name for this subreddit.",
+        description: "Could not change title for this subreddit.",
         variant: "destructive",
       });
     },
     onSuccess: () => {
       toast({
-        description: "Name for this subreddit has been updated.",
+        description: "Title for this subreddit has been updated.",
       });
 
       router.refresh();
@@ -73,10 +70,10 @@ const EditSubredditName: React.FC<EditSubredditNameProps> = ({
   const onSubmit = async (data: SubredditNamePayload) => {
     const payload: SubredditNamePayload = {
       subredditId: data.subredditId,
-      name: data.name,
+      title: data.title,
     };
 
-    changeName(payload);
+    changeTitle(payload);
   };
 
   return (
@@ -84,21 +81,21 @@ const EditSubredditName: React.FC<EditSubredditNameProps> = ({
       <div className="relative group">
         <Input
           className="font-bold text-3xl md:text-4xl h-8 border-none px-0 py-0 bg-transparent group-hover:opacity-75 w-full"
-          defaultValue={subredditName}
+          defaultValue={subredditTitle}
           {...rest}
           ref={(e) => {
-            nameRef(e);
+            titleRef(e);
             // @ts-ignore
-            _nameRef.current = e;
+            _titleRef.current = e;
           }}
         />
         <span className="hidden group-hover:block bottom-0 absolute w-3 h-3 right-4 top-1">
           <Edit />
         </span>
       </div>
-      {watchValue !== subredditName && (
+      {watchValue !== subredditTitle && (
         <Button type="submit" variant="outline" size="xs" className="ml-3">
-          {isNameLoading ? (
+          {isTitleLoading ? (
             <Loader2 className="w-5 h-5 animate-spin" />
           ) : (
             <Check className="w-5 h-5" />
@@ -109,4 +106,4 @@ const EditSubredditName: React.FC<EditSubredditNameProps> = ({
   );
 };
 
-export default EditSubredditName;
+export default EditSubredditTitle;

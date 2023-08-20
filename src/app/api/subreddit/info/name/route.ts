@@ -13,7 +13,7 @@ export async function PATCH(req: Request) {
 
     const body = await req.json();
 
-    const { name, subredditId } = SubredditNameValidator.parse(body);
+    const { title, subredditId } = SubredditNameValidator.parse(body);
 
     const subscribtionExists = await db.subreddit.findFirst({
       where: {
@@ -46,7 +46,7 @@ export async function PATCH(req: Request) {
         id: subredditId,
       },
       data: {
-        title: name,
+        title,
       },
     });
 
