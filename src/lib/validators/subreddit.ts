@@ -52,6 +52,11 @@ export const SubredditAvatarValidator = z.object({
   // .default(null),
 });
 
+export const SubredditNameValidator = z.object({
+  subredditId: z.string(),
+  title: z.string().min(3).max(80),
+});
+
 export type CreateSubredditPayload = z.infer<typeof SubredditValidator>;
 export type DeleteSubredditPayload = z.infer<typeof DeleteSubredditValidator>;
 
@@ -71,3 +76,5 @@ export type SubredditDeleteLinkPayload = z.infer<
 >;
 
 export type SubredditAvatarPayload = z.infer<typeof SubredditAvatarValidator>;
+
+export type SubredditNamePayload = z.infer<typeof SubredditNameValidator>;
