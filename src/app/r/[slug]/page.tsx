@@ -7,6 +7,7 @@ import CreatePost from "@/components/post/CreatePost";
 import PostFeed from "@/components/feed/PostFeed";
 import SubredditHints from "@/components/subreddit-hints/SubredditHints";
 import SubredditAvatar from "@/components/SubredditAvatar";
+import EditSubredditName from "@/components/EditSubredditName";
 
 interface PageProps {
   params: {
@@ -51,7 +52,12 @@ const Page = async ({ params }: PageProps) => {
         </div>
         <div className="flex flex-col gap-2">
           <h1 className="font-bold text-3xl md:text-4xl h-8">
-            {subreddit.name}
+            {isAuthor ? (
+              <EditSubredditName
+                subredditId={subreddit.id}
+                subredditName={subreddit.name}
+              />
+            ) : <h1 className="font-bold text-3xl md:text-4xl h-8">{subreddit.name}</h1>}
           </h1>
           <p className="font-medium text-gray-500">r/{subreddit.name}</p>
         </div>
