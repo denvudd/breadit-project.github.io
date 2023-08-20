@@ -46,7 +46,7 @@ export async function PATCH(req: Request) {
         id: subredditId,
       },
       data: {
-        name,
+        title: name,
       },
     });
 

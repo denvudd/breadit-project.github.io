@@ -55,9 +55,13 @@ const Page = async ({ params }: PageProps) => {
             {isAuthor ? (
               <EditSubredditName
                 subredditId={subreddit.id}
-                subredditName={subreddit.name}
+                subredditName={subreddit.title ?? subreddit.name}
               />
-            ) : <h1 className="font-bold text-3xl md:text-4xl h-8">{subreddit.name}</h1>}
+            ) : (
+              <h1 className="font-bold text-3xl md:text-4xl h-8">
+                {subreddit.title ?? subreddit.name}
+              </h1>
+            )}
           </h1>
           <p className="font-medium text-gray-500">r/{subreddit.name}</p>
         </div>
