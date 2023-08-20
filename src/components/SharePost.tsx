@@ -21,7 +21,7 @@ const SharePost: React.FC<SharePostProps> = ({
 }) => {
   const path =
     typeof window !== "undefined" &&
-    `${window.location.origin}/r/${subredditName}/${subredditId}`;
+    `${window.location.origin}/r/${subredditName}/post/${subredditId}`;
   const { copy } = useClipboard();
 
   return (

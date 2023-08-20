@@ -62,7 +62,7 @@ const SubredditGeneral = async ({
 
       {subreddit.about && (
         <dl className="flex flex-col gap-2 w-full px-6 pt-4 bg-white dark:bg-slate-900 text-sm leading-6">
-          <dt className="text-gray-500 dark:text-gray-300">About</dt>
+          <dt className="text-gray-500 dark:text-gray-300">Description</dt>
           <dd>{subreddit.about}</dd>
         </dl>
       )}
