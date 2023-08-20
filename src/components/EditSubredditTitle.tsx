@@ -89,6 +89,9 @@ const EditSubredditTitle: React.FC<EditSubredditTitleProps> = ({
             _titleRef.current = e;
           }}
         />
+        {errors?.title && (
+          <p className="absolute left-0 top-[-5px]">{errors.title.message}</p>
+        )}
         <span className="hidden group-hover:block bottom-0 absolute w-3 h-3 right-4 top-1">
           <Edit />
         </span>
