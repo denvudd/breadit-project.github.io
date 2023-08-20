@@ -6,7 +6,6 @@ import { notFound } from "next/navigation";
 import CreatePost from "@/components/post/CreatePost";
 import PostFeed from "@/components/feed/PostFeed";
 import SubredditHints from "@/components/subreddit-hints/SubredditHints";
-import Image from "next/image";
 import SubredditAvatar from "@/components/SubredditAvatar";
 
 interface PageProps {

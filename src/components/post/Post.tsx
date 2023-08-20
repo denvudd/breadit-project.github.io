@@ -6,6 +6,7 @@ import EditorOutput from "../EditorOutput";
 import PostVoteClient from "../post-vote/PostVoteClient";
 import type { Vote } from "@prisma/client";
 import SharePost from "../SharePost";
+import Image from "next/image";
 
 type PartialVote = Pick<Vote, "type">;
 
@@ -37,6 +38,20 @@ const Post: React.FC<PostProps> = ({
         />
         <div className="w-0 flex-1">
           <div className="max-h-40 mt-1 text-xs text-gray-500 dark:text-gray-300">
+            {post.subreddit.avatar && (
+              <a
+                href={`/r/${subredditName}`}
+                className="underline text-zinc-900 dark:text-zinc-100 text-sm underline-offset-2"
+              >
+                <Image
+                  src={post.subreddit.avatar}
+                  width={20}
+                  height={20}
+                  alt={`${subredditName} avatar`}
+                  className="w-5 h-5 inline-block mr-2 rounded-full"
+                />
+              </a>
+            )}
             {subredditName ? (
               <>
                 <a
