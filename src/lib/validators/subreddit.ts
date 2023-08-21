@@ -60,7 +60,7 @@ export const SubredditNameValidator = z.object({
 export const SubredditFlairValidator = z.object({
   subredditId: z.string(),
   name: z.string().min(1).max(20),
-  color: z.string().min(4).max(9).regex(/^#/), // 3 and 8 digits HEX color
+  color: z.string(),
 });
 
 export const SubredditDeleteFlairValidator = z.object({

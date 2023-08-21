@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import React from "react";
+import AddFlair from "../AddFlair";
 
 interface SubredditFlairsProps {
   isAuthor: boolean;
@@ -27,7 +28,7 @@ const SubredditFlairs = async ({
             Add flairs for cozy post filtering and visual perception on your
             subreddit.
           </p>
-          {/* <AddLink subredditId={subredditId} /> */}
+          <AddFlair subredditId={subredditId} />
         </div>
       )}
       {!flairs.length && (
@@ -36,12 +37,20 @@ const SubredditFlairs = async ({
         </div>
       )}
       {!!flairs.length && (
-        <div className="flex flex-col gap-2 w-full px-6 py-4 bg-white dark:bg-slate-900 text-sm leading-6">
+        <div className="flex flex-wrap gap-x-2 gap-y-3 w-full px-6 py-4 bg-white dark:bg-slate-900 text-sm font-medium leading-6">
           {flairs.map((flair) => (
             <div
-              className="group w-full flex justify-between items-center mr-2"
+              className="group w-fit flex justify-between items-center"
               key={flair.id}
-            ></div>
+            >
+              <a
+                href={"/"}
+                className="rounded-[20px] text-zinc-100 cursor-pointer py-2 px-3"
+                style={{ backgroundColor: flair.color }}
+              >
+                {flair.name}
+              </a>
+            </div>
           ))}
         </div>
       )}
