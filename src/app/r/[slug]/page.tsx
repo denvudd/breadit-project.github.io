@@ -8,7 +8,6 @@ import PostFeed from "@/components/feed/PostFeed";
 import SubredditHints from "@/components/subreddit-hints/SubredditHints";
 import SubredditAvatar from "@/components/SubredditAvatar";
 import EditSubredditTitle from "@/components/EditSubredditTitle";
-
 interface PageProps {
   params: {
     slug: string;
@@ -21,6 +20,8 @@ interface PageProps {
 const Page = async ({ params, searchParams }: PageProps) => {
   const { slug } = params;
   const { flair } = searchParams;
+  console.log(flair);
+  
 
   const session = await getAuthSession();
   const subreddit = await db.subreddit.findFirst({
@@ -37,6 +38,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
           votes: true,
           comments: true,
           subreddit: true,
+          flair: true,
         },
         orderBy: {
           createdAt: "desc",
@@ -85,7 +87,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
         initPosts={subreddit.posts}
         subredditName={subreddit.name}
         searchParams={{
-          flair: typeof flair === "string" ? flair : undefined,
+          flair: typeof flair === "string" ? flair : null,
         }}
       />
     </>

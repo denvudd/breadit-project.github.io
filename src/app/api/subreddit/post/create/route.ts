@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const { subredditId, title, content } = PostValidator.parse(body);
+    const { subredditId, title, content, flairId } = PostValidator.parse(body);
 
     const subscribtionExists = await db.subscription.findFirst({
       where: {
@@ -34,6 +34,7 @@ export async function POST(req: Request) {
         content,
         authorId: session.user.id,
         subredditId,
+        flairId,
       },
     });
 

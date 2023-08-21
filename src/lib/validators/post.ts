@@ -7,6 +7,7 @@ export const PostValidator = z.object({
     .max(128, { message: "Title must be at least 128 characters." }),
   subredditId: z.string(),
   content: z.any(),
+  flairId: z.string().nullish().optional(),
 });
 
 export type PostCreationRequest = z.infer<typeof PostValidator>;

@@ -1,7 +1,6 @@
 import { db } from "@/lib/db";
 import React from "react";
 import AddFlair from "../AddFlair";
-import Link from "next/link";
 
 interface SubredditFlairsProps {
   isAuthor: boolean;
@@ -46,16 +45,13 @@ const SubredditFlairs = async ({
               className="group w-fit flex justify-between items-center"
               key={flair.id}
             >
-              <Link
-                href={{
-                  pathname: `/r/${subredditName}`,
-                  query: { flair: flair.name },
-                }}
+              <a
+                href={`/r/${subredditName}?flair=${flair.name}`}
                 className="rounded-[20px] text-zinc-100 cursor-pointer py-2 px-3"
                 style={{ backgroundColor: flair.color }}
               >
                 {flair.name}
-              </Link>
+              </a>
             </div>
           ))}
         </div>

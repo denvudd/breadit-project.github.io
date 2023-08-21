@@ -13,7 +13,7 @@ interface PostFeedProps {
   initPosts: ExtendedPost[];
   subredditName?: string;
   searchParams: {
-    flair: string | undefined;
+    flair: string | null;
   };
 }
 
