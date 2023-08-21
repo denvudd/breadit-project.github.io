@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import React from "react";
 import AddFlair from "../AddFlair";
+import DeleteFlair from "../DeleteFlair";
 
 interface SubredditFlairsProps {
   isAuthor: boolean;
@@ -42,15 +43,18 @@ const SubredditFlairs = async ({
         <div className="flex flex-wrap gap-x-2 gap-y-3 w-full px-6 py-4 bg-white dark:bg-slate-900 text-sm font-medium leading-6">
           {flairs.map((flair) => (
             <div
-              className="group w-fit flex justify-between items-center"
+              className="w-fit flex justify-between items-center"
               key={flair.id}
             >
               <a
                 href={`/r/${subredditName}?flair=${flair.name}`}
-                className="rounded-[20px] text-zinc-100 cursor-pointer py-2 px-3"
+                className="rounded-[20px] text-zinc-100 cursor-pointer py-2 px-3 flex items-center gap-3"
                 style={{ backgroundColor: flair.color }}
               >
                 {flair.name}
+                {isAuthor && (
+                  <DeleteFlair flairId={flair.id} subredditId={subredditId} />
+                )}
               </a>
             </div>
           ))}
