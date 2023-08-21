@@ -87,6 +87,15 @@ model Subreddit {
   @@index([name])
 }
 
+model Flair {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?  @db.VarChar(500)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  posts       Post[]
+}
+
 model Rule {
   id          String   @id @default(cuid())
   name        String   @db.VarChar(100)
@@ -130,6 +139,9 @@ model Post {
 
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
+
+  flairId String?
+  flar   Flair? @relation(fields: [flairId], references: [id])
 
   comments Comment[]
   votes    Vote[]
