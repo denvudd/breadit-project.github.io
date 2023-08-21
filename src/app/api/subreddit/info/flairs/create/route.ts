@@ -1,6 +1,6 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { PostValidator } from "@/lib/validators/post";
+import { SubredditFlairValidator } from "@/lib/validators/subreddit";
 import { z } from "zod";
 
 export async function POST(req: Request) {
@@ -13,7 +13,8 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const { subredditId, title, content, flairId } = PostValidator.parse(body);
+    const { subredditId, name, color } =
+      SubredditFlairValidator.parse(body);
 
     const subscribtionExists = await db.subscription.findFirst({
       where: {
@@ -23,29 +24,40 @@ export async function POST(req: Request) {
     });
 
     if (!subscribtionExists) {
-      return new Response("You need to subscribe to the subreddit to post", {
-        status: 403,
+      return new Response("Subreddit doesn't exist", {
+        status: 400,
       });
     }
 
-    await db.post.create({
-      data: {
-        title,
-        content,
-        authorId: session.user.id,
-        subredditId,
-        flairId,
+    const isAuthor = await db.subreddit.findFirst({
+      where: {
+        id: subredditId,
+        creatorId: session.user.id,
       },
     });
 
-    return new Response("Your post has been published");
+    if (!isAuthor) {
+      return new Response("You are not owner of this subreddit", {
+        status: 401,
+      });
+    }
+
+    await db.flair.create({
+      data: {
+        name,
+        subredditId,
+        color,
+      }
+    })
+
+    return new Response("Your flair for subreddit has been published");
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response("Invalid request data passed", { status: 422 });
     }
 
     return new Response(
-      "Could not post at subreddit at this time, please try again later",
+      "Could not create flair for subreddit at this time, please try again later",
       {
         status: 500,
       }

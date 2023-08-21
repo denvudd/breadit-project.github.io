@@ -25,16 +25,18 @@ export async function GET(req: Request) {
   }
 
   try {
-    const { limit, page, subredditName } = z
+    const { limit, page, subredditName, flair } = z
       .object({
         limit: z.string(),
         page: z.string(),
         subredditName: z.string().nullish().optional(),
+        flair: z.string().nullish().optional(),
       })
       .parse({
         subredditName: url.searchParams.get("subredditName"),
         limit: url.searchParams.get("limit"),
         page: url.searchParams.get("page"),
+        flair: url.searchParams.get("flair"),
       });
 
     // will be passed in prisma
@@ -43,11 +45,15 @@ export async function GET(req: Request) {
     // if there are posts from certain subreddit
     if (subredditName) {
       whereClause = {
+        flair: {
+          name: typeof flair === "string" ? flair : undefined,
+        },
         subreddit: {
           name: subredditName,
         },
       };
-    } else if (session) { // if there are no posts, then make a feed based on user subscriptions
+    } else if (session) {
+      // if there are no posts, then make a feed based on user subscriptions
       whereClause = {
         subreddit: {
           id: {
@@ -61,15 +67,16 @@ export async function GET(req: Request) {
       take: parseInt(limit),
       skip: (parseInt(page) - 1) * parseInt(limit),
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
       include: {
         subreddit: true,
         votes: true,
         author: true,
         comments: true,
+        flair: true,
       },
-      where: whereClause
+      where: whereClause,
     });
 
     return new Response(JSON.stringify(posts));

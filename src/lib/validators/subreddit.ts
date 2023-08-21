@@ -57,6 +57,17 @@ export const SubredditNameValidator = z.object({
   title: z.string().min(3).max(80),
 });
 
+export const SubredditFlairValidator = z.object({
+  subredditId: z.string(),
+  name: z.string().min(1).max(20),
+  color: z.string(),
+});
+
+export const SubredditDeleteFlairValidator = z.object({
+  subredditId: z.string(),
+  flairId: z.string(),
+});
+
 export type CreateSubredditPayload = z.infer<typeof SubredditValidator>;
 export type DeleteSubredditPayload = z.infer<typeof DeleteSubredditValidator>;
 
@@ -78,3 +89,8 @@ export type SubredditDeleteLinkPayload = z.infer<
 export type SubredditAvatarPayload = z.infer<typeof SubredditAvatarValidator>;
 
 export type SubredditNamePayload = z.infer<typeof SubredditNameValidator>;
+
+export type SubredditFlairPayload = z.infer<typeof SubredditFlairValidator>;
+export type SubredditDeleteFlairPayload = z.infer<
+  typeof SubredditDeleteFlairValidator
+>;

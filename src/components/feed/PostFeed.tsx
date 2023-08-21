@@ -12,9 +12,16 @@ import Post from "../post/Post";
 interface PostFeedProps {
   initPosts: ExtendedPost[];
   subredditName?: string;
+  searchParams?: {
+    flair: string | null;
+  };
 }
 
-const PostFeed: React.FC<PostFeedProps> = ({ initPosts, subredditName }) => {
+const PostFeed: React.FC<PostFeedProps> = ({
+  initPosts,
+  subredditName,
+  searchParams,
+}) => {
   const lastPostRef = React.useRef<HTMLElement>(null);
   const { data: session } = useSession();
   const { ref, entry } = useIntersection({
@@ -30,6 +37,7 @@ const PostFeed: React.FC<PostFeedProps> = ({ initPosts, subredditName }) => {
           limit: INFINITE_SCROLLING_PAGINATION_RESULTS,
           page: pageParam,
           subredditName: !!subredditName ? subredditName : null,
+          flair: searchParams?.flair,
         },
       });
 
@@ -50,7 +58,7 @@ const PostFeed: React.FC<PostFeedProps> = ({ initPosts, subredditName }) => {
     if (entry?.isIntersecting) {
       fetchNextPage();
     }
-  }, [entry, fetchNextPage])
+  }, [entry, fetchNextPage]);
 
   return (
     <ul className="flex flex-col col-span-2 space-y-6">

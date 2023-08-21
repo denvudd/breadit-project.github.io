@@ -39,6 +39,12 @@ export async function PATCH(req: Request) {
             _count: true,
           },
         },
+        flair: {
+          select: {
+            name: true,
+            color: true,
+          },
+        },
         subreddit: {
           select: {
             name: true,
@@ -99,6 +105,12 @@ export async function PATCH(req: Request) {
             name: post.subreddit.name,
           },
           commentsCount: Number(post.comments[0]._count),
+          flair: post.flair
+            ? {
+                name: post.flair?.name,
+                color: post.flair?.color,
+              }
+            : null,
         };
 
         await redis.hset(`post: ${postId}`, cachePayload);
@@ -136,6 +148,12 @@ export async function PATCH(req: Request) {
           name: post.subreddit.name,
         },
         commentsCount: Number(post.comments[0]._count),
+        flair: post.flair
+          ? {
+              name: post.flair?.name,
+              color: post.flair?.color,
+            }
+          : null,
       };
 
       await redis.hset(`post: ${postId}`, cachePayload);

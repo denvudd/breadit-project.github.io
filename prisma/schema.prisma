@@ -79,12 +79,25 @@ model Subreddit {
   avatar String?
   rules  Rule[]
   links  SubredditLink[]
+  flairs Flair[]
 
   creatorId   String?
   creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id])
   subscribers Subscription[]
 
   @@index([name])
+}
+
+model Flair {
+  id          String   @id @default(cuid())
+  name        String   @db.VarChar(20)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  color       String
+
+  subredditId String
+  subreddit   Subreddit @relation(fields: [subredditId], references: [id])
+  posts       Post[]
 }
 
 model Rule {
@@ -130,6 +143,9 @@ model Post {
 
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
+
+  flairId String?
+  flair    Flair?  @relation(fields: [flairId], references: [id])
 
   comments Comment[]
   votes    Vote[]

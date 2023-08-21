@@ -8,7 +8,11 @@ export type CachedPost = {
   currentVote: Vote["type"] | null;
   createdAt: Date;
   commentsCount: number;
+  flair: {
+    name: string;
+    color: string;
+  } | null;
   subreddit: {
     name: string;
-  }
-}
+  };
+};

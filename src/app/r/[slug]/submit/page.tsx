@@ -14,10 +14,13 @@ const page = async ({ params }: PageProps) => {
     where: {
       name: params.slug,
     },
+    include: {
+      flairs: true,
+    },
   });
 
   if (!subreddit) return notFound();
-  
+
   return (
     <div className="flex flex-col items-start gap-6">
       <div className="">
@@ -30,7 +33,7 @@ const page = async ({ params }: PageProps) => {
           </p>
         </div>
       </div>
-      <Editor subredditId={subreddit.id} />
+      <Editor subredditId={subreddit.id} flairs={subreddit.flairs} />
       <div className="w-full flex justify-end">
         <Button type="submit" className="w-full" form="subreddit-post-form">
           Post

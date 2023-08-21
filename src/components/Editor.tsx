@@ -14,12 +14,17 @@ import type EditorJS from "@editorjs/editorjs";
 import { uploadFiles } from "@/lib/uploadthing";
 import { toast } from "@/hooks/use-toast";
 import axios, { AxiosError } from "axios";
+import { type Flair } from "@prisma/client";
 
 interface EditorProps {
   subredditId: string;
+  flairs: Flair[];
 }
 
-const Editor: React.FC<EditorProps> = ({ subredditId }) => {
+const Editor: React.FC<EditorProps> = ({
+  subredditId,
+  flairs,
+}) => {
   const {
     register,
     handleSubmit,
@@ -37,11 +42,13 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
       title,
       content,
       subredditId,
+      flairId,
     }: PostCreationRequest) => {
       const payload: PostCreationRequest = {
         subredditId,
         title,
         content,
+        flairId,
       };
       const { data } = await axios.post("/api/subreddit/post/create", payload);
       return data as string;
@@ -88,6 +95,7 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
   const _titleRef = React.useRef<HTMLTextAreaElement>(null);
   const { ref: titleRef, ...rest } = register("title");
   const { isMounted } = useIsComponentMounted();
+  const [selectedFlair, setSelectedFlair] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     const init = async () => {
@@ -129,6 +137,7 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
       title: data.title,
       content: blocks,
       subredditId,
+      flairId: selectedFlair,
     };
 
     createPost(payload);
@@ -201,28 +210,52 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
         className="w-fit"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="prose prose-stone dark:prose-invert">
-          <TextareaAutosize
-            ref={(e) => {
-              titleRef(e);
-              // @ts-ignore
-              _titleRef.current = e;
-            }}
-            {...rest}
-            title="Title"
-            placeholder="Title"
-            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
-          />
+        <div className="">
+          <div className="prose prose-stone dark:prose-invert">
+            <TextareaAutosize
+              ref={(e) => {
+                titleRef(e);
+                // @ts-ignore
+                _titleRef.current = e;
+              }}
+              {...rest}
+              title="Title"
+              placeholder="Title"
+              className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
+            />
 
-          <div id="editor" className="min-h-[500px]"></div>
+            <div id="editor" className="min-h-[500px]"></div>
+          </div>
+          <p className="text-sm text-gray-500">
+            Use{" "}
+            <kbd className="rounded-md border bg-muted px-1 text-xs uppercase">
+              Tab
+            </kbd>{" "}
+            to open the command menu.
+          </p>
         </div>
-        <p className="text-sm text-gray-500">
-          Use{" "}
-          <kbd className="rounded-md border bg-muted px-1 text-xs uppercase">
-            Tab
-          </kbd>{" "}
-          to open the command menu.
-        </p>
+        <div className="my-2">
+          <p className="py-2 text-gray-300">
+            Select an appropriate flair for this post
+          </p>
+          <div className="flex gap-x-2 gap-y-3">
+            {!!flairs.length &&
+              flairs.map((flair) => (
+                <div
+                  className="group w-fit flex justify-between items-center"
+                  key={flair.id}
+                  onClick={() => setSelectedFlair(flair.id)}
+                >
+                  <div
+                    className="rounded-[20px] text-zinc-100 cursor-pointer py-2 px-3"
+                    style={{ backgroundColor: flair.color }}
+                  >
+                    {flair.name}
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
       </form>
     </div>
   );

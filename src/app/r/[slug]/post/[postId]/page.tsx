@@ -10,7 +10,7 @@ import type { CachedPost } from "@/types/redis";
 import type { Post, Subreddit, User, Vote, Comment } from "@prisma/client";
 import { Loader2, MessageSquare } from "lucide-react";
 import { notFound } from "next/navigation";
-import React from "react";
+import React, { cache } from "react";
 
 interface PageProps {
   params: {
@@ -34,6 +34,10 @@ const page = async ({ params }: PageProps) => {
         author: User;
         subreddit: Subreddit;
         comments: Comment[];
+        flair: {
+          name: string;
+          color: string;
+        } | null;
       })
     | null = null;
 
@@ -47,6 +51,12 @@ const page = async ({ params }: PageProps) => {
         author: true,
         subreddit: true,
         comments: true,
+        flair: {
+          select: {
+            name: true,
+            color: true,
+          },
+        },
       },
     });
   }
@@ -102,12 +112,28 @@ const page = async ({ params }: PageProps) => {
             </span>{" "}
             {formatTimeToNow(new Date(post?.createdAt ?? cachedPost.createdAt))}
           </div>
-
           <h1 className="text-xl font-semibold py-2 leading-6 text-gray-900 dark:text-gray-100">
             {post?.title ?? cachedPost.title}
           </h1>
-
-          <div>
+          {post?.flair && post?.subreddit.name && (
+            <a
+              href={`/r/${post.subreddit.name}?flair=${post.flair.name}`}
+              className="rounded-sm text-zinc-100 cursor-pointer py-1 px-2 text-xs font-medium"
+              style={{ backgroundColor: post.flair.color }}
+            >
+              {post.flair.name}
+            </a>
+          )}
+          {cachedPost?.flair && cachedPost?.subreddit.name && (
+            <a
+              href={`/r/${cachedPost.subreddit.name}?flair=${cachedPost.flair.name}`}
+              className="rounded-md text-zinc-100 cursor-pointer py-1 px-2 text-xs font-medium"
+              style={{ backgroundColor: cachedPost.flair.color }}
+            >
+              {cachedPost.flair.name}
+            </a>
+          )}
+          <div className="mt-3">
             <EditorOutput content={post?.content ?? cachedPost.content} />
           </div>
         </div>
