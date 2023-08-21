@@ -37,7 +37,7 @@ const Post: React.FC<PostProps> = ({
           className="hidden sm:flex"
         />
         <div className="w-0 flex-1">
-          <div className="max-h-40 mt-1 text-xs text-gray-500 dark:text-gray-300">
+          <div className="max-h-40 mt-1 text-xs text-gray-500 dark:text-gray-300 truncate">
             {post.subreddit.avatar && (
               <a
                 href={`/r/${subredditName}`}
@@ -69,11 +69,23 @@ const Post: React.FC<PostProps> = ({
             {formatTimeToNow(new Date(post.createdAt))}
           </div>
 
-          <a href={`/r/${subredditName}/post/${post.id}`}>
-            <h1 className="text-lg font-semibold py-2 leading-6 text-gray-900 dark:text-gray-100">
+          <h2 className="py-2 leading-6 text-gray-900 dark:text-gray-100 inline-flex items-center gap-2 flex-wrap">
+            <a
+              className="text-lg font-semibold"
+              href={`/r/${subredditName}/post/${post.id}`}
+            >
               {post.title}
-            </h1>
-          </a>
+            </a>
+            {post.flair && (
+              <a
+                href={`/r/${subredditName}?flair=${post.flair.name}`}
+                className="rounded-[20px] text-zinc-100 cursor-pointer py-1 px-2 text-xs font-medium"
+                style={{ backgroundColor: post.flair.color }}
+              >
+                {post.flair.name}
+              </a>
+            )}
+          </h2>
 
           <div
             className="relative text-sm max-h-40 w-full overflow-clip"

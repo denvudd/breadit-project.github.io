@@ -20,9 +20,7 @@ interface PageProps {
 const Page = async ({ params, searchParams }: PageProps) => {
   const { slug } = params;
   const { flair } = searchParams;
-  console.log(flair);
   
-
   const session = await getAuthSession();
   const subreddit = await db.subreddit.findFirst({
     where: { name: slug },
