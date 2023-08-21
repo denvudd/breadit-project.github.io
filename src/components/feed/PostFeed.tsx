@@ -12,7 +12,7 @@ import Post from "../post/Post";
 interface PostFeedProps {
   initPosts: ExtendedPost[];
   subredditName?: string;
-  searchParams: {
+  searchParams?: {
     flair: string | null;
   };
 }
@@ -28,7 +28,6 @@ const PostFeed: React.FC<PostFeedProps> = ({
     root: lastPostRef.current,
     threshold: 1,
   });
-  const { flair } = searchParams;
 
   const { data, fetchNextPage } = useInfiniteQuery(
     ["infinite-query"],
@@ -38,7 +37,7 @@ const PostFeed: React.FC<PostFeedProps> = ({
           limit: INFINITE_SCROLLING_PAGINATION_RESULTS,
           page: pageParam,
           subredditName: !!subredditName ? subredditName : null,
-          flair,
+          flair: searchParams?.flair,
         },
       });
 
