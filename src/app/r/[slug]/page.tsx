@@ -13,15 +13,25 @@ interface PageProps {
   params: {
     slug: string;
   };
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
 }
 
-const Page = async ({ params }: PageProps) => {
+const Page = async ({ params, searchParams }: PageProps) => {
   const { slug } = params;
+  const { flair } = searchParams;
+
   const session = await getAuthSession();
   const subreddit = await db.subreddit.findFirst({
     where: { name: slug },
     include: {
       posts: {
+        where: {
+          flair: {
+            name: typeof flair === "string" ? flair : undefined,
+          },
+        },
         include: {
           author: true,
           votes: true,
@@ -71,7 +81,13 @@ const Page = async ({ params }: PageProps) => {
       {subreddit.creatorId === session?.user.id && (
         <SubredditHints slug={slug} />
       )}
-      <PostFeed initPosts={subreddit.posts} subredditName={subreddit.name} />
+      <PostFeed
+        initPosts={subreddit.posts}
+        subredditName={subreddit.name}
+        searchParams={{
+          flair: typeof flair === "string" ? flair : undefined,
+        }}
+      />
     </>
   );
 };

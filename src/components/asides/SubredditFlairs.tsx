@@ -1,15 +1,18 @@
 import { db } from "@/lib/db";
 import React from "react";
 import AddFlair from "../AddFlair";
+import Link from "next/link";
 
 interface SubredditFlairsProps {
   isAuthor: boolean;
   subredditId: string;
+  subredditName: string;
 }
 
 const SubredditFlairs = async ({
   isAuthor,
   subredditId,
+  subredditName,
 }: SubredditFlairsProps) => {
   const flairs = await db.flair.findMany({
     where: {
@@ -43,13 +46,16 @@ const SubredditFlairs = async ({
               className="group w-fit flex justify-between items-center"
               key={flair.id}
             >
-              <a
-                href={"/"}
+              <Link
+                href={{
+                  pathname: `/r/${subredditName}`,
+                  query: { flair: flair.name },
+                }}
                 className="rounded-[20px] text-zinc-100 cursor-pointer py-2 px-3"
                 style={{ backgroundColor: flair.color }}
               >
                 {flair.name}
-              </a>
+              </Link>
             </div>
           ))}
         </div>

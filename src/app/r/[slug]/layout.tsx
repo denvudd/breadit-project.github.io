@@ -41,7 +41,11 @@ const Layout = async ({ children, params, shareModal }: LayoutProps) => {
                 isAuthor={isAuthor}
               />
               {/* @ts-expect-error server component */}
-              <SubredditFlairs isAuthor={isAuthor} subredditId={subreddit.id} />
+              <SubredditFlairs
+                isAuthor={isAuthor}
+                subredditId={subreddit.id}
+                subredditName={subreddit.name}
+              />
               {/* @ts-expect-error server component */}
               <SubredditRules
                 subredditName={subreddit.name}
