@@ -79,6 +79,7 @@ model Subreddit {
   avatar String?
   rules  Rule[]
   links  SubredditLink[]
+  flairs Flair[]
 
   creatorId   String?
   creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id])
@@ -93,6 +94,10 @@ model Flair {
   description String?  @db.VarChar(500)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  color       String
+
+  subredditId String
+  subreddit   Subreddit @relation(fields: [subredditId], references: [id])
   posts       Post[]
 }
 
@@ -141,7 +146,7 @@ model Post {
   authorId String
 
   flairId String?
-  flar   Flair? @relation(fields: [flairId], references: [id])
+  flar    Flair?  @relation(fields: [flairId], references: [id])
 
   comments Comment[]
   votes    Vote[]

@@ -1,4 +1,5 @@
 import ToFeedButton from "@/components/ToFeedButton";
+import SubredditFlairs from "@/components/asides/SubredditFlairs";
 import SubredditGeneral from "@/components/asides/SubredditGeneral";
 import SubredditLinks from "@/components/asides/SubredditLinks";
 import SubredditRules from "@/components/asides/SubredditRules";
@@ -40,16 +41,15 @@ const Layout = async ({ children, params, shareModal }: LayoutProps) => {
                 isAuthor={isAuthor}
               />
               {/* @ts-expect-error server component */}
+              <SubredditFlairs isAuthor={isAuthor} subredditId={subreddit.id} />
+              {/* @ts-expect-error server component */}
               <SubredditRules
                 subredditName={subreddit.name}
                 subredditId={subreddit.id}
                 isAuthor={isAuthor}
               />
               {/* @ts-expect-error server component */}
-              <SubredditLinks
-                isAuthor={isAuthor}
-                subredditId={subreddit.id}
-              />
+              <SubredditLinks isAuthor={isAuthor} subredditId={subreddit.id} />
             </div>
           </div>
         </div>
